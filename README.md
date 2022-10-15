@@ -1,16 +1,24 @@
 # Docker Compose GUI
 
+## Notas Para desarrolladores 
 
-## Importante
+### Estructura y explicacion de la misma
+- Carpeta DB ahi reside el script.sql que se ejecutara en MySql con el diseño de la BBDD y un usuario de pruebas que luego se borra.
+
+- OLDIntegration es donde reside los antiguos archivos que eran ejemplos de como crear actualizar y eliminar una sola maquina esos archivo no se usan en ningun momento
+
+- Python-Tool ahi es donde reside la herramienta que usamos para ejecutar comandos en el sistema, en este caso para crear contenedores y manejar los datos relacionados a el tanto como el usuario que lo ha creado donde reside el contenedor, que carpetas tenemos enlazadas y donde, el puerto, servicios etc. Eso lo manejara en parte python y parte PHP que lo que hara sera interpretar ese JSON ubicado en la carpeta del usuario ademas de existir uno por cada contenedor. Por otra parte tiene un test.py que prueba la herramienta antes de desplegarla por si existen fallos de compilacion etc. casque la maquina de desarrollo o produccion y no se pueda continuar el desarrollo.
+
+- WEB contendra toda la aplicacion en este caso la interfaz grafica que maneja los datos y realizar acciones como crear contenedores.
+### IMPORTANTE
+La estructura puede llegar a cambiar ya que falta el desarrollo JAVA que sera la herramienta final. Por lo tanto estar atentos a que esta estructura no vaya cambiando con el tiempo.
+
+## Continuo Desarrollo
+
+### IMPORTANTE
 
 Este proyecto esta sin finalizar puede que existan errores que no hemos contemplado los desarrolladores, por favor si encuentra algun error comuniquelo en el apartado de issues de este repositorio. Ademas se necesita tener configurado la herramienta python y la maquina de cierta forma.
 
-```
-cd existing_repo
-git remote add origin https://akagitlab.duckdns.org/akaenterprises/docker-compose-gui.git
-git branch -M main
-git push -uf origin main
-```
 ## Lista de cosas por hacer
 
 ### GitLab Despliegue
