@@ -1,0 +1,23 @@
+{
+    "execUser":"aritz",
+    "container":
+    {
+        "containerName":"wordpress",
+        "services":["apache2","mysql","php"],
+        "volumes":
+        {
+            "mysql": ["dbdata:\/var\/lib\/mysql", "script.sql:\/dbScript\/script.sql"],
+            "apache2":["wordpress:\/var\/www\/html\/wordpress", ".htaccess:\/var\/www\/html\/.htaccess"]
+        },
+        "publicPorts":
+        {
+            "apache2":"8080",
+            "mysql":"33306"
+        },
+        "privatePorts":
+        {
+            "apache2":"80",
+            "mysql":"3306"
+        }
+    }
+}

@@ -1,0 +1,22 @@
+{
+    "execUser":"testuser",
+    "container":
+    {
+        "containerName":"wordpress",
+        "services":["mysql","php"],
+        "volumes":
+        {
+            "mysql": ["mysql/dbdata:\/var\/lib\/mysql", "dbscripts/script.sql:\/dbScript\/script.sql"]
+        },
+        "publicPorts":
+        {
+            "apache2":"9000",
+            "mysql":"3306"
+        },
+        "privatePorts":
+        {
+            "apache2":"80",
+            "mysql":"3306"
+        }
+    }
+}

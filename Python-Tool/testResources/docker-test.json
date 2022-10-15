@@ -1,0 +1,23 @@
+{
+    "execUser":"testuser",
+    "container":
+    {
+        "containerName":"wordpress",
+        "services":["apache2","mysql","php"],
+        "volumes":
+        {
+            "mysql": ["mysql/dbdata:\/var\/lib\/mysql", "mysql/script.sql:\/dbScript\/script.sql"],
+            "apache2":["apache2/wordpress:\/var\/www\/html\/wordpress", "apache2/.htaccess:\/var\/www\/html\/.htaccess"]
+        },
+        "publicPorts":
+        {
+            "apache2":"8080",
+            "mysql":"33306"
+        },
+        "privatePorts":
+        {
+            "apache2":"8080",
+            "mysql":"3301"
+        }
+    }
+}

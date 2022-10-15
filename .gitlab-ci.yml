@@ -1,0 +1,169 @@
+stages:
+  - config
+  - test
+  - pre-deploy
+  - deploy
+
+config_dev_server:
+  image: ictu/sshpass:latest
+  stage: config
+  script:
+    - export SSHPASS=$DEV_SERVER_PASSWORD
+    - echo "$SCRIPT_CONF_SERVER" > scriptConf.sh
+    - chmod +x scriptConf.sh
+    - sshpass -e scp -oUserKnownHostsFile=/dev/null -oStrictHostKeyChecking=no -r scriptConf.sh ${DEV_SERVER_USER}@${DEV_SERVER_ADDRESS}:${SCRIPT_PRE_DEPLOY_GUI_PATH}
+    - sshpass -e ssh -o StrictHostKeyChecking=no ${DEV_SERVER_USER}@${DEV_SERVER_ADDRESS} "echo $DEV_SERVER_PASSWORD | sudo -S bash $SCRIPT_PRE_DEPLOY_GUI_PATH/scriptConf.sh"
+
+config_prod_server:
+  image: ictu/sshpass:latest
+  stage: config
+  script:
+    - export SSHPASS=$DEV_SERVER_PASSWORD
+    - echo "$SCRIPT_CONF_SERVER" > scriptConf.sh
+    - chmod +x scriptConf.sh
+    - sshpass -e scp -oUserKnownHostsFile=/dev/null -oStrictHostKeyChecking=no -r scriptConf.sh ${DEV_SERVER_USER}@${DEV_SERVER_ADDRESS}:${SCRIPT_PRE_DEPLOY_GUI_PATH}
+    - sshpass -e ssh -o StrictHostKeyChecking=no ${DEV_SERVER_USER}@${DEV_SERVER_ADDRESS} "echo $DEV_SERVER_PASSWORD | sudo -S bash $SCRIPT_PRE_DEPLOY_GUI_PATH/scriptConf.sh"
+  only:
+    - /^release/.*/
+    - /v.*-RELEASE/
+    - /^hotfix/.*/
+python_tool_test_dev:
+  image: python:latest
+  stage: test
+  script:
+    - pip3 install pytest pytest-cov
+    - cd Python-Tool/
+    - pytest test.py --junitxml=../report.xml
+    - coverage run -m pytest test.py
+    #- python3 -m unittest
+    - coverage report
+    - coverage xml
+    - cp coverage.xml ../coverage.xml
+    - ls
+    - cd ..
+    - ls
+  coverage: '/TOTAL.*\s([.\d]+)%/'
+  artifacts:
+    when: always
+    paths:
+      - report.xml
+    reports:
+      cobertura: coverage.xml
+    expire_in: 1h
+
+python_tool_test_prod:
+  image: python:latest
+  stage: test
+  script:
+    - pip3 install pytest pytest-cov
+    - cd Python-Tool/
+    - pytest test.py --junitxml=../report.xml
+    - coverage run -m pytest test.py
+    #- python3 -m unittest
+    - coverage report
+    - coverage xml
+    - cp coverage.xml ../coverage.xml
+  coverage: '/TOTAL.*\s([.\d]+)%/'
+  artifacts:
+    when: always
+    paths:
+      - report.xml
+    reports:
+      cobertura: coverage.xml
+    expire_in: 1h
+  only:
+    - /^release/.*/
+    - /v.*-RELEASE/
+    - /^hotfix/.*/
+
+deploy_db_dev:
+  image: ictu/sshpass:latest
+  stage: deploy
+  script:
+    - export SSHPASS=$DEV_SERVER_PASSWORD
+    - sshpass -e ssh -o StrictHostKeyChecking=no ${DEV_SERVER_USER}@${DEV_SERVER_ADDRESS} "mkdir -p $DEV_DEPLOY_SCRIPTS_PATH && chown -R $DEV_SERVER_USER:$DEV_SERVER_USER $DEV_DEPLOY_SCRIPTS_PATH"
+    - echo "$DB_DEPLOY_SCRIPT" > script.sh
+    - chmod +x script.sh
+    - sshpass -e scp -oUserKnownHostsFile=/dev/null -oStrictHostKeyChecking=no -r DB/script.sql ${DEV_SERVER_USER}@${DEV_SERVER_ADDRESS}:${DEV_DEPLOY_SCRIPTS_PATH}/script.sql
+    - sshpass -e scp -oUserKnownHostsFile=/dev/null -oStrictHostKeyChecking=no -r script.sh ${DEV_SERVER_USER}@${DEV_SERVER_ADDRESS}:${DEV_DEPLOY_SCRIPTS_PATH}/script.sh
+    - sshpass -e ssh -o StrictHostKeyChecking=no ${DEV_SERVER_USER}@${DEV_SERVER_ADDRESS} "bash $DEV_DEPLOY_SCRIPTS_PATH/script.sh"
+  
+deploy_db_prod:
+  image: ictu/sshpass:latest
+  stage: deploy
+  script:
+    - export SSHPASS=$DEV_SERVER_PASSWORD
+    - sshpass -e ssh -o StrictHostKeyChecking=no ${DEV_SERVER_USER}@${DEV_SERVER_ADDRESS} "mkdir -p $DEV_DEPLOY_SCRIPTS_PATH && chown -R $DEV_SERVER_USER:$DEV_SERVER_USER $DEV_DEPLOY_SCRIPTS_PATH"
+    - echo "$DB_DEPLOY_SCRIPT" > script.sh
+    - chmod +x script.sh
+    - sshpass -e scp -oUserKnownHostsFile=/dev/null -oStrictHostKeyChecking=no -r DB/script.sql ${DEV_SERVER_USER}@${DEV_SERVER_ADDRESS}:${DEV_DEPLOY_SCRIPTS_PATH}/script.sql
+    - sshpass -e scp -oUserKnownHostsFile=/dev/null -oStrictHostKeyChecking=no -r script.sh ${DEV_SERVER_USER}@${DEV_SERVER_ADDRESS}:${DEV_DEPLOY_SCRIPTS_PATH}/script.sh
+    - sshpass -e ssh -o StrictHostKeyChecking=no ${DEV_SERVER_USER}@${DEV_SERVER_ADDRESS} "bash $DEV_DEPLOY_SCRIPTS_PATH/script.sh"
+  only:
+    - /^release/.*/
+    - /v.*-RELEASE/
+    - /^hotfix/.*/
+
+deploy_python_tool_dev:
+  image: ictu/sshpass:latest
+  stage: deploy
+  script:
+    - export SSHPASS=$DEV_SERVER_PASSWORD
+    - sshpass -e scp -oUserKnownHostsFile=/dev/null -oStrictHostKeyChecking=no -r Python-Tool/main.py ${DEV_SERVER_USER}@${DEV_SERVER_ADDRESS}:${PYTHON_TOOL_DEPLOY_PATH}
+  needs: ["deploy_db_dev"]
+
+deploy_python_tool_prod:
+  image: ictu/sshpass:latest
+  stage: deploy
+  script:
+    - export SSHPASS=$DEV_SERVER_PASSWORD
+    - sshpass -e scp -oUserKnownHostsFile=/dev/null -oStrictHostKeyChecking=no -r Python-Tool/main.py ${DEV_SERVER_USER}@${DEV_SERVER_ADDRESS}:${PYTHON_TOOL_DEPLOY_PATH}
+  needs: ["deploy_db_dev"]
+  only:
+    - /^release/.*/
+    - /v.*-RELEASE/
+    - /^hotfix/.*/
+
+pre_deploy_gui_dev:
+  image: ictu/sshpass:latest
+  stage: pre-deploy
+  script:
+    - export SSHPASS=$DEV_SERVER_PASSWORD
+    - echo "$SCRIPT_PRE_DEPLOY_GUI" > script.sh
+    - chmod +x script.sh
+    - sshpass -e scp -oUserKnownHostsFile=/dev/null -oStrictHostKeyChecking=no -r script.sh ${DEV_SERVER_USER}@${DEV_SERVER_ADDRESS}:${SCRIPT_PRE_DEPLOY_GUI_PATH}
+    - sshpass -e ssh -o StrictHostKeyChecking=no ${DEV_SERVER_USER}@${DEV_SERVER_ADDRESS} "bash $SCRIPT_PRE_DEPLOY_GUI_PATH/script.sh"
+
+pre_deploy_gui_prod:
+  image: ictu/sshpass:latest
+  stage: pre-deploy
+  script:
+    - export SSHPASS=$DEV_SERVER_PASSWORD
+    - echo "$SCRIPT_PRE_DEPLOY_GUI" > script.sh
+    - chmod +x script.sh
+    - sshpass -e scp -oUserKnownHostsFile=/dev/null -oStrictHostKeyChecking=no -r script.sh ${DEV_SERVER_USER}@${DEV_SERVER_ADDRESS}:${SCRIPT_PRE_DEPLOY_GUI_PATH}
+    - sshpass -e ssh -o StrictHostKeyChecking=no ${DEV_SERVER_USER}@${DEV_SERVER_ADDRESS} "bash $SCRIPT_PRE_DEPLOY_GUI_PATH/script.sh"
+  only:
+    - /^release/.*/
+    - /v.*-RELEASE/
+    - /^hotfix/.*/
+
+deploy_gui_dev:
+  image: ictu/sshpass:latest
+  stage: deploy
+  script:
+    - export SSHPASS=$DEV_SERVER_PASSWORD
+    - sshpass -e scp -oUserKnownHostsFile=/dev/null -oStrictHostKeyChecking=no -r WEB/* ${DEV_SERVER_USER}@${DEV_SERVER_ADDRESS}:${DOCKER_COMPOSE_GUI_WEB_DEPLOY_PATH}
+  needs: ["deploy_python_tool_dev"]
+
+deploy_gui_prod:
+  image: ictu/sshpass:latest
+  stage: deploy
+  script:
+    - export SSHPASS=$DEV_SERVER_PASSWORD
+    - sshpass -e scp -oUserKnownHostsFile=/dev/null -oStrictHostKeyChecking=no -r WEB/* ${DEV_SERVER_USER}@${DEV_SERVER_ADDRESS}:${DOCKER_COMPOSE_GUI_WEB_DEPLOY_PATH}
+  needs: ["deploy_python_tool_dev"]
+  only:
+    - /^release/.*/
+    - /v.*-RELEASE/
+    - /^hotfix/.*/
