@@ -15,10 +15,10 @@ git push -uf origin main
 
 ### GitLab Despliegue
 - [ ] Mejorar despliegue GitLab
-    - 1. Los archivos de configuracion que haya que tocar en la maquina se deberia de hacer en el despliegue
-    - 2. Importante todos los archivos que se suelen pasar en el depliegue se cargan en variables de GitLab por lo tanto en este repo no estan los scripts de despliegue habra que redesarrollarlos
-    - 3. Instalacion de dependencias desde GitLab a maquina, habra que determinar si las tiene instaladas
-    - 4. Importante retirar la carpeta .git de la ruta de despliegue. Dos formas de hacerlo los archivos que se copian en la ruta del servicio web cambiar el destino a otra carpeta eliminar la carpeta .git y despues copiar a la ruta a desplegar o eliminar la carpeta git directamente.
+    - [ ] Los archivos de configuracion que haya que tocar en la maquina se deberia de hacer en el despliegue
+    - [ ] Importante todos los archivos que se suelen pasar en el depliegue se cargan en variables de GitLab por lo tanto en este repo no estan los scripts de despliegue habra que redesarrollarlos
+    - [ ] Instalacion de dependencias desde GitLab a maquina, habra que determinar si las tiene instaladas
+    - [ ] Importante retirar la carpeta .git de la ruta de despliegue. Dos formas de hacerlo los archivos que se copian en la ruta del servicio web cambiar el destino a otra carpeta eliminar la carpeta .git y despues copiar a la ruta a desplegar o eliminar la carpeta git directamente.
 - [ ] Desplegar el Proyecto Java
 - [ ] Crear test para Java (Si se puede)
 - [ ] Crear test para PHP (Si se puede)
