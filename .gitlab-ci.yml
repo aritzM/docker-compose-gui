@@ -153,7 +153,7 @@ deploy_gui_dev:
   stage: deploy
   script:
     - export SSHPASS=$DEV_SERVER_PASSWORD
-    - sshpass -e scp -oUserKnownHostsFile=/dev/null -oStrictHostKeyChecking=no -r WEB/* ${DEV_SERVER_USER}@${DEV_SERVER_ADDRESS}:${DOCKER_COMPOSE_GUI_WEB_DEPLOY_PATH}
+    - sshpass -e scp -oUserKnownHostsFile=/dev/null -oStrictHostKeyChecking=no -r PHP/WEB/* ${DEV_SERVER_USER}@${DEV_SERVER_ADDRESS}:${DOCKER_COMPOSE_GUI_WEB_DEPLOY_PATH}
   needs: ["deploy_python_tool_dev"]
 
 deploy_gui_prod:
@@ -161,7 +161,7 @@ deploy_gui_prod:
   stage: deploy
   script:
     - export SSHPASS=$DEV_SERVER_PASSWORD
-    - sshpass -e scp -oUserKnownHostsFile=/dev/null -oStrictHostKeyChecking=no -r WEB/* ${DEV_SERVER_USER}@${DEV_SERVER_ADDRESS}:${DOCKER_COMPOSE_GUI_WEB_DEPLOY_PATH}
+    - sshpass -e scp -oUserKnownHostsFile=/dev/null -oStrictHostKeyChecking=no -r PHP/WEB/* ${DEV_SERVER_USER}@${DEV_SERVER_ADDRESS}:${DOCKER_COMPOSE_GUI_WEB_DEPLOY_PATH}
   needs: ["deploy_python_tool_dev"]
   only:
     - /^release/.*/
