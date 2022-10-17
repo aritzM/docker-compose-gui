@@ -39,7 +39,7 @@ Este proyecto esta sin finalizar puede que existan errores que no hemos contempl
 - [ ] El usuario podra elegir los recursos que se destinan al contenedor.
 
 ### JAVA
-- [ ] Crear el proyecto dentro de otra carpeta del repo y separarlo del proyecto PHP
+- [x] Crear el proyecto dentro de otra carpeta del repo y separarlo del proyecto PHP
 - [ ] Conexion a BBDD para login
 - [ ] Comprobar uso de la herramienta Python
 - [ ] Crear commonsDockerGui, dockerGui, dockerGuiWS. En cocommonsDockerGui ira la mayoria de las logicas, llamadas a python, llamadas a BBDD etc. En dockerGuiWS se realizaran las llamadas a BBDD y todos los datos se enviaran mediante JSON. En dockerGui tendremos la pagina responiva con la structura que tenia asta ahora pero lleno de jsp o jspf hay que tener en cuanta que habra que hacer comprobaciones para ello <c:if>. Habra que investigar bastante.
