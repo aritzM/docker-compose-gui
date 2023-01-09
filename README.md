@@ -22,6 +22,7 @@ Este proyecto esta sin finalizar puede que existan errores que no hemos contempl
 ## Lista de cosas por hacer
 
 ### GitLab Despliegue
+- [ ] Falta añadir HTTPS a la maquina de GitLab
 - [ ] Mejorar despliegue GitLab
     - [ ] Los archivos de configuracion que haya que tocar en la maquina se deberia de hacer en el despliegue
     - [ ] Importante todos los archivos que se suelen pasar en el depliegue se cargan en variables de GitLab por lo tanto en este repo no estan los scripts de despliegue habra que redesarrollarlos
