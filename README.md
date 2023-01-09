@@ -50,3 +50,8 @@ Este proyecto esta sin finalizar puede que existan errores que no hemos contempl
 - [ ] Crear los archivos .properties necesarios.
 - [ ] Una vez llegado a este punto, intentar desplegar con GitLab.
 - [ ] Despues implementar asta el punto de PHP
+
+### Documentacion
+
+- https://www.howtoforge.com/how-to-install-and-configure-gitlab-on-ubuntu-20-04/
+- https://www.fosstechnix.com/how-to-install-gitlab-runner-on-ubuntu/
