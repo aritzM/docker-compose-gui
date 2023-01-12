@@ -24,8 +24,8 @@ Este proyecto esta sin finalizar puede que existan errores que no hemos contempl
 ### GitLab Despliegue
 - [ ] Falta añadir HTTPS a la maquina de GitLab
 - [ ] Mejorar despliegue GitLab
-    - [ ] Los archivos de configuracion que haya que tocar en la maquina se deberia de hacer en el despliegue
-    - [ ] Importante todos los archivos que se suelen pasar en el depliegue se cargan en variables de GitLab por lo tanto en este repo no estan los scripts de despliegue habra que redesarrollarlos
+    - [x] Los archivos de configuracion que haya que tocar en la maquina se deberia de hacer en el despliegue
+    - [x] Importante todos los archivos que se suelen pasar en el depliegue se cargan en variables de GitLab por lo tanto en este repo no estan los scripts de despliegue habra que redesarrollarlos
     - [ ] Instalacion de dependencias desde GitLab a maquina, habra que determinar si las tiene instaladas, urls de ayuda (Windows Por Hacer):
     - [x] Instalacion de dependencias desde GitLab a maquina, habra que determinar si las tiene instaladas, urls de ayuda (Ubuntu 20.04 Hecho):
         - https://phoenixnap.com/kb/install-docker-on-ubuntu-20-04
