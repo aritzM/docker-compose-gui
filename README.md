@@ -26,7 +26,7 @@ Este proyecto esta sin finalizar puede que existan errores que no hemos contempl
 - [ ] Mejorar despliegue GitLab
     - [ ] Los archivos de configuracion que haya que tocar en la maquina se deberia de hacer en el despliegue
     - [ ] Importante todos los archivos que se suelen pasar en el depliegue se cargan en variables de GitLab por lo tanto en este repo no estan los scripts de despliegue habra que redesarrollarlos
-    - [ ] Instalacion de dependencias desde GitLab a maquina, habra que determinar si las tiene instaladas, urls de ayuda:
+    - [ ] Instalacion de dependencias desde GitLab a maquina, habra que determinar si las tiene instaladas, urls de ayuda (Ubuntu 20.04 Haciendo, Windows Por Hacer):
         - https://phoenixnap.com/kb/install-docker-on-ubuntu-20-04
         - https://phoenixnap.com/kb/install-docker-compose-on-ubuntu-20-04
     - [ ] Importante retirar la carpeta .git de la ruta de despliegue. Dos formas de hacerlo los archivos que se copian en la ruta del servicio web cambiar el destino a otra carpeta eliminar la carpeta .git y despues copiar a la ruta a desplegar o eliminar la carpeta git directamente.
