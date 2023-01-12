@@ -54,4 +54,5 @@ Este proyecto esta sin finalizar puede que existan errores que no hemos contempl
 ### Documentacion
 
 - https://www.howtoforge.com/how-to-install-and-configure-gitlab-on-ubuntu-20-04/
+- https://phoenixnap.com/kb/install-docker-on-ubuntu-20-04
 - https://www.fosstechnix.com/how-to-install-gitlab-runner-on-ubuntu/
