@@ -35,8 +35,9 @@ function login($conn,$username,$password)
 }
 function countServices($user)
 {
-  $contContainers = (exec("ls /home/" . $user . "/ | wc -l") / 2);
-  $contContainers = round($contContainers, 0, PHP_ROUND_HALF_DOWN);
+  //$contContainers = (exec("ls /home/" . $user . "/ | wc -l") / 2);
+  //$contContainers = round($contContainers, 0, PHP_ROUND_HALF_DOWN);
+  $contContainers =0;
   return $contContainers;
 }
 function insertUsu($conn,$nombre,$apellido1,$apellido2,$email,$username,$password)
