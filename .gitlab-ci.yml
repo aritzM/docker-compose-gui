@@ -141,8 +141,8 @@ pre_deploy_gui_prod:
     - export SSHPASS=$DEV_SERVER_PASSWORD
     - echo "$SCRIPT_PRE_DEPLOY_GUI" > script.sh
     - chmod +x script.sh
-    - sshpass -e scp -oUserKnownHostsFile=/dev/null -oStrictHostKeyChecking=no -r script.sh ${PROD_SERVER_USER}@${PROD_SERVER_ADDRESS}:${SCRIPT_PRE_DEPLOY_GUI_PATH}
-    - sshpass -e ssh -o StrictHostKeyChecking=no ${PROD_SERVER_USER}@${PROD_SERVER_ADDRESS} "bash $SCRIPT_PRE_DEPLOY_GUI_PATH/script.sh"
+    - sshpass -e scp -oUserKnownHostsFile=/dev/null -oStrictHostKeyChecking=no -r script.sh ${PROD_SERVER_USER}@${PROD_SERVER_ADDRESS}:${PROD_SCRIPT_PRE_DEPLOY_GUI_PATH}
+    - sshpass -e ssh -o StrictHostKeyChecking=no ${PROD_SERVER_USER}@${PROD_SERVER_ADDRESS} "bash $PROD_SCRIPT_PRE_DEPLOY_GUI_PATH/script.sh"
   only:
     - /^release/.*/
     - /v.*-RELEASE/
