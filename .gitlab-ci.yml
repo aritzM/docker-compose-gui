@@ -1,22 +1,47 @@
 stages:
-  - config
+  - installConfig
   - test
   - pre-deploy
   - deploy
 
+install_dependencies_dev_server:
+  image: ictu/sshpass:latest
+  stage: installConfig
+  script:
+    - export SSHPASS=$DEV_SERVER_PASSWORD
+    - echo "$SCRIPT_INSTALL_SERVER" > scriptInstall.sh
+    - chmod +x scriptInstall.sh
+    - sshpass -e scp -oUserKnownHostsFile=/dev/null -oStrictHostKeyChecking=no -r scriptInstall.sh ${DEV_SERVER_USER}@${DEV_SERVER_ADDRESS}:${SCRIPT_PRE_DEPLOY_GUI_PATH}
+    - sshpass -e ssh -o StrictHostKeyChecking=no ${DEV_SERVER_USER}@${DEV_SERVER_ADDRESS} "echo $DEV_SERVER_PASSWORD | sudo -S bash $SCRIPT_PRE_DEPLOY_GUI_PATH/scriptInstall.sh"
+
+install_dependencies_prod_server:
+  image: ictu/sshpass:latest
+  stage: installConfig
+  script:
+    - export SSHPASS=$PROD_SERVER_PASSWORD
+    - echo "$SCRIPT_INSTALL_SERVER" > scriptInstall.sh
+    - chmod +x scriptInstall.sh
+    - sshpass -e scp -oUserKnownHostsFile=/dev/null -oStrictHostKeyChecking=no -r scriptInstall.sh ${PROD_SERVER_USER}@${PROD_SERVER_ADDRESS}:${PROD_SCRIPT_PRE_DEPLOY_GUI_PATH}
+    - sshpass -e ssh -o StrictHostKeyChecking=no ${PROD_SERVER_USER}@${PROD_SERVER_ADDRESS} "echo $PROD__SERVER_PASSWORD | sudo -S bash $PROD_SCRIPT_PRE_DEPLOY_GUI_PATH/scriptInstall.sh"
+  only:
+    - /^release/.*/
+    - /v.*-RELEASE/
+    - /^hotfix/.*/
+
 config_dev_server:
   image: ictu/sshpass:latest
-  stage: config
+  stage: installConfig
   script:
     - export SSHPASS=$DEV_SERVER_PASSWORD
     - echo "$SCRIPT_CONF_SERVER" > scriptConf.sh
     - chmod +x scriptConf.sh
     - sshpass -e scp -oUserKnownHostsFile=/dev/null -oStrictHostKeyChecking=no -r scriptConf.sh ${DEV_SERVER_USER}@${DEV_SERVER_ADDRESS}:${SCRIPT_PRE_DEPLOY_GUI_PATH}
     - sshpass -e ssh -o StrictHostKeyChecking=no ${DEV_SERVER_USER}@${DEV_SERVER_ADDRESS} "echo $DEV_SERVER_PASSWORD | sudo -S bash $SCRIPT_PRE_DEPLOY_GUI_PATH/scriptConf.sh"
+  needs: ["install_dependencies_dev_server"]
 
 config_prod_server:
   image: ictu/sshpass:latest
-  stage: config
+  stage: installConfig
   script:
     - export SSHPASS=$PROD_SERVER_PASSWORD
     - echo "$SCRIPT_CONF_SERVER" > scriptConf.sh
@@ -27,6 +52,8 @@ config_prod_server:
     - /^release/.*/
     - /v.*-RELEASE/
     - /^hotfix/.*/
+  needs: ["install_dependencies_prod_server"]
+
 python_tool_test_dev:
   image: python:latest
   stage: test
