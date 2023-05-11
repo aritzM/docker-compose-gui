@@ -48,7 +48,7 @@ python_tool_test_dev:
     paths:
       - report.xml
     reports:
-      cobertura: coverage.xml
+      #cobertura: coverage.xml
     expire_in: 1h
 
 python_tool_test_prod:
@@ -69,7 +69,7 @@ python_tool_test_prod:
     paths:
       - report.xml
     reports:
-      cobertura: coverage.xml
+      #cobertura: coverage.xml
     expire_in: 1h
   only:
     - /^release/.*/
