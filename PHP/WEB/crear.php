@@ -98,7 +98,8 @@ if(isset($_POST["crear"]))
   <link href="assets/vendor/quill/quill.bubble.css" rel="stylesheet">
   <link href="assets/vendor/remixicon/remixicon.css" rel="stylesheet">
   <link href="assets/vendor/simple-datatables/style.css" rel="stylesheet">
-
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+  <script src="script.js"></script>
 
   <!-- Template Main CSS File -->
   <link href="assets/css/style.css" rel="stylesheet">
@@ -136,19 +137,19 @@ if(isset($_POST["crear"]))
         <!-- Vertical Pills Tabs -->
         <div class="d-flex align-items-start" id="myFormu">
           <div class="nav flex-column nav-pills me-4" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-            <button class="nav-link active" id="v-pills-home-tab" data-bs-toggle="pill" data-bs-target="#v-pills-home" type="button" role="tab" aria-controls="v-pills-home" aria-selected="true">Nombre</button>
-            <button class="nav-link" id="v-pills-profile-tab" data-bs-toggle="pill" data-bs-target="#v-pills-profile" type="button" role="tab" aria-controls="v-pills-profile" aria-selected="false">Servicios</button>
-            <!--<button class="nav-link" id="v-pills-messages-tab" data-bs-toggle="pill" data-bs-target="#v-pills-messages" type="button" role="tab" aria-controls="v-pills-messages" aria-selected="false">Volumenes</button>-->
-            <button class="nav-link" id="v-pills-port-tab " data-bs-toggle="pill" data-bs-target="#v-pills-port  " type="button" role="tab" aria-controls="v-pills-port  " aria-selected="false">Puertos</button>
+            <button class="nav-link active" id="v-pills-home-tab"   type="button" role="tab"  aria-selected="true">Nombre</button>
+            <button class="nav-link" id="v-pills-profile-tab"   type="button" role="tab"  aria-selected="false">Servicios</button>
+            <button class="nav-link" id="v-pills-messages-tab"   type="button" role="tab"  aria-selected="false">Volumenes</button>
+            <button class="nav-link" id="v-pills-port-tab"     type="button" role="tab"  aria-selected="false">Puertos</button>
           </div>
 
           <form action="crear.php" method="POST">
             <div class="tab-content" id="v-pills-tabContent">
               <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">
                 
-                  <div class="row mb-3">
-                    <label for="inputText" class="col-sm-3 col-form-label">Nombre:</label>
-                    <div class="col-sm-6">
+                  <div class="row mb-10">
+                    <label for="inputText" class="col-sm-4 col-form-label">Nombre:</label>
+                    <div class="col-sm-10">
                       <input type="text" name="nombreServicio" placeholder="Nombre del Servicio Ej: Wordpress" class="form-control">
                     </div>
                   </div>
@@ -162,7 +163,7 @@ if(isset($_POST["crear"]))
                 
                   <div class="row mb-3">
                     <div class="col-sm-10">
-                      <button type="submit" class="btn btn-primary">Next</button>
+                      <button  class="btn btn-next" id="1">Next</button>
                     </div>
                   </div>
                   
@@ -188,11 +189,13 @@ if(isset($_POST["crear"]))
                       </tr>
                     </tbody>
                   </table>
+                  
+
 
                   <div class="row mb-3">
                     <div class="col-sm-10">
-                      <button type="submit" class="btn btn-primary">Back</button>
-                      <button type="submit" class="btn btn-next">Next</button>
+                      <button type="button" class="btn btn-primary" aria-controls="v-pills-profile" id="volver-1" >Back</button>
+                      <button  type="button" class="btn btn-next" aria-controls="v-pills-profile" id="2">Next</button>
                     </div>
                   </div>
 
@@ -202,9 +205,11 @@ if(isset($_POST["crear"]))
                   <table class="table">
                     <thead>
                       <tr>
-                        <th scope="col">Volumen</th>
-                        <th scope="col">Apache</th>
+                        <th scope="col">Nº Volumen</th>
+                        <th scope="col">Servicio</th>
                         <th scope="col">Mysql</th>
+                        <th scope="col">Mongo</th>
+                        <th scope="col">Nginx</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -236,8 +241,8 @@ if(isset($_POST["crear"]))
 
                   <div class="row mb-3">
                     <div class="col-sm-10">
-                      <button type="submit" class="btn btn-primary">Back</button>
-                      <button type="submit" class="btn btn-next">Next</button>
+                      <button type="button" class="btn btn-primary" id="volver-2" >Back</button>
+                      <button type="button" class="btn btn-next" id="3">Next</button>
                     </div>
                   </div>
                 </div>
@@ -274,8 +279,8 @@ if(isset($_POST["crear"]))
 
                   <div class="row mb-3">
                     <div class="col-sm-10">
-                      <button type="submit" class="btn btn-primary">Back</button>
-                      <button type="submit" value="crear" name="crear" class="btn btn-next">Finish</button>
+                      <button type="button" class="btn btn-primary" id="volver-3">Back</button>
+                      <button type="button" value="crear" name="crear" class="btn">Finish</button>
                     </div>
                   </div>
                 </div>
@@ -308,7 +313,7 @@ if(isset($_POST["crear"]))
   <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
   <!-- Vendor JS Files -->
-  <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
+  <sc src="assets/vendor/apexcharts/apexcharts.min.js"></sc>
   <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
   <script src="assets/vendor/chart.js/chart.min.js"></script>
   <script src="assets/vendor/echarts/echarts.min.js"></script>
@@ -321,9 +326,7 @@ if(isset($_POST["crear"]))
 
 
   <script src="assets/js/main.js"></script>
-  
- 
-	
+
 
 </body>
 

@@ -9,7 +9,7 @@ function conn()
     //$conn = new mysqli('192.168.1.54','user','L0z@rr@6','DockerComposeGui');
     if ($conn->connect_error) 
     {
-       die("Connection failed: " . $conn->connect_error);
+    die("Connection failed: " . $conn->connect_error);
     }
     return $conn;
 }
