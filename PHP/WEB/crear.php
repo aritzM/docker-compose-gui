@@ -180,7 +180,7 @@ if(isset($_POST["crear"]))
                       </tr>
                     </thead>
                     <tbody>
-                      <tr class="checkbox">
+                      <tr class="checkbox" id="checkbox">
                         <th scope="row"></th>
                         <td><input type="checkbox" name="apache2"></td>
                         <td><input type="checkbox" name="mysql"></td>
@@ -202,14 +202,10 @@ if(isset($_POST["crear"]))
                 </div>
                 <div class="tab-pane fade" id="v-pills-messages" role="tabpanel" aria-labelledby="v-pills-messages-tab">
                   <!-- Esto se deberia de generar dependiendo de que checkbox se haya clickado -->
-                  <table class="table">
-                    <thead>
+                  <table class="table" id="tabla">
+                    <thead >
                       <tr>
                         <th scope="col">Nº Volumen</th>
-                        <th scope="col">Servicio</th>
-                        <th scope="col">Mysql</th>
-                        <th scope="col">Mongo</th>
-                        <th scope="col">Nginx</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -238,7 +234,6 @@ if(isset($_POST["crear"]))
                       
                     </tbody>
                   </table>
-
                   <div class="row mb-3">
                     <div class="col-sm-10">
                       <button type="button" class="btn btn-primary" id="volver-2" >Back</button>
@@ -280,7 +275,7 @@ if(isset($_POST["crear"]))
                   <div class="row mb-3">
                     <div class="col-sm-10">
                       <button type="button" class="btn btn-primary" id="volver-3">Back</button>
-                      <button type="button" value="crear" name="crear" class="btn">Finish</button>
+                      <button type="submit" value="crear" name="crear" class="btn">Finish</button>
                     </div>
                   </div>
                 </div>

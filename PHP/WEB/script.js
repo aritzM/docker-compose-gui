@@ -11,10 +11,12 @@ function inicio() {
           mostrarTabs('#v-pills-profile-tab',"#v-pills-home","#v-pills-profile");
       }
       if (this.id == "2") {
-          $( "input:checked" ).each(function(){
-              /* preparar volumen y puertos */
-          });
-          mostrarTabs('#v-pills-messages-tab',"#v-pills-profile","#v-pills-messages");
+        var servicios=[];
+        var count=0;
+        $('#checkbox input:checked').each(function() {
+          $("#tabla >thead tr").append("<th scope=\"col\">"+this.name+"</th>")
+        })
+        mostrarTabs('#v-pills-messages-tab',"#v-pills-profile","#v-pills-messages");
       }
       if (this.id == "3") {
           mostrarTabs('#v-pills-port-tab',"#v-pills-messages","#v-pills-port");
@@ -31,6 +33,11 @@ function retroceso() {
         mostrarTabs("#v-pills-home-tab", "#v-pills-profile", "#v-pills-home");
       }
       if (this.id == "volver-2") {
+        $("#tabla thead th").each(function(){
+          if(this.innerHTML !== "Nº Volumen"){
+            this.remove();
+          }
+        })
         mostrarTabs("#v-pills-profile-tab", "#v-pills-messages", "#v-pills-profile");
       }
       if (this.id == "volver-3") {
