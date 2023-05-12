@@ -171,9 +171,9 @@ def createDockerComposeFile(data):
          
       if services == "nginx":
          dockerComposeFile.write(
-         "   web-" + data["container"]["containerName"] + ":\n" +
+         "   webNginx-" + data["container"]["containerName"] + ":\n" +
          "     image: nginx:latest\n" +
-         "     container_name: web-" + data["container"]["containerName"] + "\n" +
+         "     container_name: webNginx-" + data["container"]["containerName"] + "\n" +
          "     volumes:\n")
          
          # Recorremos los volumenes necesarios para el servicio apache2
@@ -188,9 +188,9 @@ def createDockerComposeFile(data):
 
       if services == "mongo":
          dockerComposeFile.write(
-         "   web-" + data["container"]["containerName"] + ":\n" +
+         "   dbMongo-" + data["container"]["containerName"] + ":\n" +
          "     image: mongo:latest\n" +
-         "     container_name: web-" + data["container"]["containerName"] + "\n" +
+         "     container_name: dbMongo-" + data["container"]["containerName"] + "\n" +
          "     volumes:\n")
          
          # Recorremos los volumenes necesarios para el servicio apache2
