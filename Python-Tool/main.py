@@ -95,26 +95,30 @@ def main(argv):
       return jsonFileName
 # Funcion que nos permite crear el usuario
 def createUser(data):
-   # Creamos el usuario que se nos pide en el archivo .json que se nos pasa en el argumento por linea de comando
-   os.system('useradd ' + data["execUser"])
-   # Lo creamos sin contraseña ya que este usuario no tendra acceso a la terminal pero si que tiene que existir como tal en el sistema por si queremos darle permisos en concreto
-   os.system('passwd -d ' + data["execUser"])
-   # Creamos el home del usuario
-   os.system('mkdir /home/' + data["execUser"])
-   # Le damos permisos al usuario sobre su home
-   os.system('chown ' + data["execUser"] + ":" + data["execUser"] + " -R /home/" + data["execUser"])
-   os.system('chmod 755 -R /home/' + data["execUser"])
-   # Especificamos el directorio del usuario
-   os.system('usermod -d /home/'+ data["execUser"] + " " + data["execUser"])
-   # Le decimos que puede acceder a la terminal
-   os.system('usermod -s /bin/bash ' + data["execUser"])
-   #Importante: para ejecutar docker con este usuario se debera de ejectuar la siguiente linea: 
-   os.system('usermod -aG docker ' + data["execUser"])
+   # Comprobamos que el no exista antes de crearlo si existe no hacemos nada
+   if os.system("id -u " + data["execUser"]) != 0:   
+      # Creamos el usuario que se nos pide en el archivo .json que se nos pasa en el argumento por linea de comando
+      os.system('useradd ' + data["execUser"])
+      # Lo creamos sin contraseña ya que este usuario no tendra acceso a la terminal pero si que tiene que existir como tal en el sistema por si queremos darle permisos en concreto
+      os.system('passwd -d ' + data["execUser"])
+      # Creamos el home del usuario
+      os.system('mkdir /home/' + data["execUser"])
+      # Le damos permisos al usuario sobre su home
+      os.system('chown ' + data["execUser"] + ":" + data["execUser"] + " -R /home/" + data["execUser"])
+      os.system('chmod 755 -R /home/' + data["execUser"])
+      # Especificamos el directorio del usuario
+      os.system('usermod -d /home/'+ data["execUser"] + " " + data["execUser"])
+      # Le decimos que puede acceder a la terminal
+      os.system('usermod -s /bin/bash ' + data["execUser"])
+      #Importante: para ejecutar docker con este usuario se debera de ejectuar la siguiente linea: 
+      os.system('usermod -aG docker ' + data["execUser"])
 
 # Funcion en el que creamos y escribimos el docker-compose.yml con los datos que nos pasan en el archivo .json
 def createDockerComposeFile(data):
-   # Creamos la carpeta que contendra el docker-compose.yml (home del usuario + (Carpeta)nombreContenedor = /home/usuario/nombreContenedor/docker-compose.yml)
-   os.system('mkdir /home/' + data["execUser"] + '/' + data["container"]["containerName"])
+   #Comprobamos que exista la ruta antes de crearla si existe no la creamos
+   if not os.path.exists('/home/' + data["execUser"] + '/' + data["container"]["containerName"]):
+      # Creamos la carpeta que contendra el docker-compose.yml (home del usuario + (Carpeta)nombreContenedor = /home/usuario/nombreContenedor/docker-compose.yml)
+      os.system('mkdir /home/' + data["execUser"] + '/' + data["container"]["containerName"])
    # Abrimos el archivo docker-compose.yml
    dockerComposeFile = open("/home/" + data["execUser"] + "/" + data["container"]["containerName"] + "/docker-compose.yml", "w")
    # Escribimos en el archivo docker-compose.yml (IMPORTANTE: los espacios en blanco tambien se escribe en el archivo)
