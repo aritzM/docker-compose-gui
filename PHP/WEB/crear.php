@@ -24,38 +24,128 @@ if(isset($_POST["crear"]))
   
   if(isset($_POST["nombreServicio"]) && isset($_POST["descripcion"]))
   {
-    
-    $docker["execUser"] = $_SESSION["user"];
-    
-    $docker["container"]["containerName"] = $_POST["nombreServicio"];
-    $docker["container"]["descripcion"] = $_POST["descripcion"];
-    
-    if(isset($_POST["apache2"]) && isset($_POST["mysql"]))
+    if(isset($_POST["apache2"]) && isset($_POST["mysql"]) && isset($_POST["nginx"]) && isset($_POST["mongo"]))
     {
-      $docker["container"]["services"] = array("apache2","mysql");  
-      $docker["container"]["volumes"] = array(
-                                              "mysql" => array("dbdata:/var/lib/mysql", "script.sql:/dbScript/script.sql"), 
-                                              "apache2" => array("wordpress:/var/www/html/wordpress", ".htaccess:/var/www/html/.htaccess")
-                                            );
-      $docker["container"]["publicPorts"] = array("apache2" => $_POST["puertoPublicApache"], "mysql" => $_POST["puertoPublicMysql"]);
-      $docker["container"]["privatePorts"] = array("apache2" => $_POST["puertoPrivApache"], "mysql" => $_POST["puertoPrivMysql"]);
-      
+      $params["servicio1"] = $_POST["apache2"];
+      $params["servicio2"] = $_POST["mysql"];
+      $params["servicio3"] = $_POST["nginx"];
+      $params["servicio4"] = $_POST["mongo"];
+      $params["servicio1"]["puertoPublic"] = $_POST["puertoPublicApache"];
+      $params["servicio2"]["puertoPublic"] = $_POST["puertoPublicMysql"];
+      $params["servicio3"]["puertoPublic"] = $_POST["puertoPublicNginx"];
+      $params["servicio4"]["puertoPublic"] = $_POST["puertoPublicMongo"];
+      $params["servicio1"]["puertoPriv"] = $_POST["puertoPrivApache"];
+      $params["servicio2"]["puertoPriv"] = $_POST["puertoPrivMysql"];
+      $params["servicio3"]["puertoPriv"] = $_POST["puertoPrivNginx"];
+      $params["servicio4"]["puertoPriv"] = $_POST["puertoPrivMongo"];
+      $docker = componerDockerJSON($_SESSION["user"], $_POST["nombreServicio"], $_POST["descripcion"], 4, $params);
     }
     else
     {
-      if(isset($_POST["apache2"]))
+      if(isset($_POST["apache2"]) && isset($_POST["mysql"]) && isset($_POST["nginx"]))
       {
-        $docker["container"]["services"] = array("apache2");
-        $docker["container"]["volumes"] = array("apache2" => array("wordpress:/usr/local/apache2/htdocs/wordpress", ".htaccess:/var/www/html/.htaccess"));
-        $docker["container"]["publicPorts"] = array("apache2" => $_POST["puertoPublicApache"]);
-        $docker["container"]["privatePorts"] = array("apache2" => $_POST["puertoPrivApache"]);
-      }
-      if(isset($_POST["mysql"]))
+        $params["servicio1"] = $_POST["apache2"];
+        $params["servicio2"] = $_POST["mysql"];
+        $params["servicio3"] = $_POST["nginx"];
+        $params["servicio1"]["puertoPublic"] = $_POST["puertoPublicApache"];
+        $params["servicio2"]["puertoPublic"] = $_POST["puertoPublicMysql"];
+        $params["servicio3"]["puertoPublic"] = $_POST["puertoPublicNginx"];
+        $params["servicio1"]["puertoPriv"] = $_POST["puertoPrivApache"];
+        $params["servicio2"]["puertoPriv"] = $_POST["puertoPrivMysql"];
+        $params["servicio3"]["puertoPriv"] = $_POST["puertoPrivNginx"];
+        $docker = componerDockerJSON($_SESSION["user"], $_POST["nombreServicio"], $_POST["descripcion"], 3, $params);
+      } 
+      elseif (isset($_POST["apache2"]) && isset($_POST["mysql"]) && isset($_POST["mongo"]))
       {
-        $docker["container"]["services"] = array("mysql");
-        $docker["container"]["volumes"] = array("mysql" => array("dbdata:/var/lib/mysql", "script.sql:/dbScript/script.sql"));
-        $docker["container"]["publicPorts"] = array("mysql" => $_POST["puertoPublicMysql"]);
-        $docker["container"]["privatePorts"] = array("mysql" => $_POST["puertoPrivMysql"]);
+        $params["servicio1"] = $_POST["apache2"];
+        $params["servicio2"] = $_POST["mysql"];
+        $params["servicio3"] = $_POST["mongo"];
+        $params["servicio1"]["puertoPublic"] = $_POST["puertoPublicApache"];
+        $params["servicio2"]["puertoPublic"] = $_POST["puertoPublicMysql"];
+        $params["servicio3"]["puertoPublic"] = $_POST["puertoPublicMongo"];
+        $params["servicio1"]["puertoPriv"] = $_POST["puertoPrivApache"];
+        $params["servicio2"]["puertoPriv"] = $_POST["puertoPrivMysql"];
+        $params["servicio3"]["puertoPriv"] = $_POST["puertoPrivMongo"];
+        $docker = componerDockerJSON($_SESSION["user"], $_POST["nombreServicio"], $_POST["descripcion"], 3, $params);
+      } else {
+        if (isset($_POST["apache2"]) && isset($_POST["mysql"])){
+          $params["servicio1"] = $_POST["apache2"];
+          $params["servicio2"] = $_POST["mysql"];
+          $params["servicio1"]["puertoPublic"] = $_POST["puertoPublicApache"];
+          $params["servicio2"]["puertoPublic"] = $_POST["puertoPublicMysql"];
+          $params["servicio1"]["puertoPriv"] = $_POST["puertoPrivApache"];
+          $params["servicio2"]["puertoPriv"] = $_POST["puertoPrivMysql"];
+          $docker = componerDockerJSON($_SESSION["user"], $_POST["nombreServicio"], $_POST["descripcion"], 2, $params);
+        } elseif (isset($_POST["apache2"]) && isset($_POST["nginx"])) {
+          $params["servicio1"] = $_POST["apache2"];
+          $params["servicio2"] = $_POST["nginx"];
+          $params["servicio1"]["puertoPublic"] = $_POST["puertoPublicApache"];
+          $params["servicio2"]["puertoPublic"] = $_POST["puertoPublicNginx"];
+          $params["servicio1"]["puertoPriv"] = $_POST["puertoPrivApache"];
+          $params["servicio2"]["puertoPriv"] = $_POST["puertoPrivNginx"];
+          $docker = componerDockerJSON($_SESSION["user"], $_POST["nombreServicio"], $_POST["descripcion"], 2, $params);
+        } elseif (isset($_POST["apache2"]) && isset($_POST["mongo"])) {
+          $params["servicio1"] = $_POST["apache2"];
+          $params["servicio2"] = $_POST["mongo"];
+          $params["servicio1"]["puertoPublic"] = $_POST["puertoPublicApache"];
+          $params["servicio2"]["puertoPublic"] = $_POST["puertoPublicMongo"];
+          $params["servicio1"]["puertoPriv"] = $_POST["puertoPrivApache"];
+          $params["servicio2"]["puertoPriv"] = $_POST["puertoPrivMongo"];
+          $docker = componerDockerJSON($_SESSION["user"], $_POST["nombreServicio"], $_POST["descripcion"], 2, $params);
+        } elseif (isset($_POST["mysql"]) && isset($_POST["nginx"])) {
+          $params["servicio1"] = $_POST["mysql"];
+          $params["servicio2"] = $_POST["nginx"];
+          $params["servicio1"]["puertoPublic"] = $_POST["puertoPublicMysql"];
+          $params["servicio2"]["puertoPublic"] = $_POST["puertoPublicNginx"];
+          $params["servicio1"]["puertoPriv"] = $_POST["puertoPrivMysql"];
+          $params["servicio2"]["puertoPriv"] = $_POST["puertoPrivNginx"];
+          $docker = componerDockerJSON($_SESSION["user"], $_POST["nombreServicio"], $_POST["descripcion"], 2, $params);
+        } elseif (isset($_POST["mysql"]) && isset($_POST["mongo"])) {
+          $params["servicio1"] = $_POST["mysql"];
+          $params["servicio2"] = $_POST["mongo"];
+          $params["servicio1"]["puertoPublic"] = $_POST["puertoPublicMysql"];
+          $params["servicio2"]["puertoPublic"] = $_POST["puertoPublicMongo"];
+          $params["servicio1"]["puertoPriv"] = $_POST["puertoPrivMysql"];
+          $params["servicio2"]["puertoPriv"] = $_POST["puertoPrivMongo"];
+          $docker = componerDockerJSON($_SESSION["user"], $_POST["nombreServicio"], $_POST["descripcion"], 2, $params);
+        } elseif (isset($_POST["mongo"]) && isset($_POST["nginx"])) {
+          $params["servicio1"] = $_POST["mongo"];
+          $params["servicio2"] = $_POST["nginx"];
+          $params["servicio1"]["puertoPublic"] = $_POST["puertoPublicMongo"];
+          $params["servicio2"]["puertoPublic"] = $_POST["puertoPublicNginx"];
+          $params["servicio1"]["puertoPriv"] = $_POST["puertoPrivMongo"];
+          $params["servicio2"]["puertoPriv"] = $_POST["puertoPrivNginx"];
+          $docker = componerDockerJSON($_SESSION["user"], $_POST["nombreServicio"], $_POST["descripcion"], 2, $params);
+        } else {
+          if(isset($_POST["apache2"]))
+          {
+            $params["servicio1"] = $_POST["apache2"];
+            $params["servicio1"]["puertoPublic"] = $_POST["puertoPublicApache"];
+            $params["servicio1"]["puertoPriv"] = $_POST["puertoPrivApache"];
+            $docker = componerDockerJSON($_SESSION["user"], $_POST["nombreServicio"], $_POST["descripcion"], 1, $params);
+          }
+          if(isset($_POST["mysql"]))
+          {
+            $params["servicio1"] = $_POST["mysql"];
+            $params["servicio1"]["puertoPublic"] = $_POST["puertoPublicMysql"];
+            $params["servicio1"]["puertoPriv"] = $_POST["puertoPrivMysql"];
+            $docker = componerDockerJSON($_SESSION["user"], $_POST["nombreServicio"], $_POST["descripcion"], 1, $params);
+          }
+          if(isset($_POST["nginx"]))
+          {
+            $params["servicio1"] = $_POST["nginx"];
+            $params["servicio1"]["puertoPublic"] = $_POST["puertoPublicNginx"];
+            $params["servicio1"]["puertoPriv"] = $_POST["puertoPrivNginx"];
+            $docker = componerDockerJSON($_SESSION["user"], $_POST["nombreServicio"], $_POST["descripcion"], 1, $params);
+          }
+          if(isset($_POST["mongo"]))
+          {
+            $params["servicio1"] = $_POST["mongo"];
+            $params["servicio1"]["puertoPublic"] = $_POST["puertoPublicMongo"];
+            $params["servicio1"]["puertoPriv"] = $_POST["puertoPrivMongo"];
+            $docker = componerDockerJSON($_SESSION["user"], $_POST["nombreServicio"], $_POST["descripcion"], 1, $params);
+          }
+        }
       }
     }
     $fp = fopen('/var/www/html/docker-compose-gui/JSONs/docker-'. $_SESSION['user'] .'.json', 'w');
