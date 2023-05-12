@@ -69,4 +69,96 @@ function actualizarUsuario($conn,$nombre,$apellido1,$apellido2,$email,$username,
     $sentence->bind_param('sssssss', $nombre,$apellido1,$apellido2,$email,$username,$password,$oldUsu);
     $sentence->execute();
 }
+function componerDockerJSON($usuario, $nombreContenedor, $descripcion, $cantidadServicios, $params){
+  $docker = array("execUser" => null,
+                  "container" => 
+                       array("containerName" => null, 
+                             "descripcion" => null,
+                             "services" => null, 
+                             "volumes" => null, 
+                             "publicPorts" => null, 
+                             "privatePorts" => null
+                            )
+                  );
+  $docker["execUser"] = $usuario;
+
+  $docker["container"]["containerName"] = $nombreContenedor;
+  $docker["container"]["descripcion"] = $descripcion;
+
+  if($cantidadServicios == 1){
+    $docker = componerDockerJSONUnServicio($docker, $params);
+  }
+  if($cantidadServicios == 2){
+    $docker = componerDockerJSONDosServicios($docker, $params);
+  }
+  if($cantidadServicios == 3){
+    $docker = componerDockerJSONTresServicios($docker, $params);
+  }
+  if($cantidadServicios == 4){
+    $docker = componerDockerJSONCuatroServicios($docker, $params);
+  }
+  return $docker;
+}
+
+function componerDockerJSONUnServicio($docker, $params){
+  $docker["container"]["services"] = array($params["servicio1"],$params["servicio2"]);  
+  $docker["container"]["volumes"] = array($params["servicio1"] => array("dbdata:/var/lib/mysql", "script.sql:/dbScript/script.sql"));
+  $docker["container"]["publicPorts"] = array($params["servicio1"] => $params["servicio1"]["puertoPublic"]);
+  $docker["container"]["privatePorts"] = array($params["servicio1"] => $params["servicio1"]["puertoPriv"]);
+  return $docker;
+}
+
+function componerDockerJSONDosServicios($docker, $params){
+  $docker["container"]["services"] = array($params["servicio1"],$params["servicio2"]);  
+  $docker["container"]["volumes"] = array(
+                                          $params["servicio1"] => array("dbdata:/var/lib/mysql", "script.sql:/dbScript/script.sql"), 
+                                          $params["servicio2"] => array("wordpress:/var/www/html/wordpress", ".htaccess:/var/www/html/.htaccess")
+                                        );
+  $docker["container"]["publicPorts"] = array($params["servicio1"] => $params["servicio1"]["puertoPublic"], 
+                                              $params["servicio2"] => $params["servicio2"]["puertoPublic"]
+                                            );
+  $docker["container"]["privatePorts"] = array($params["servicio1"] => $params["servicio1"]["puertoPriv"],
+                                               $params["servicio2"] => $params["servicio2"]["puertoPriv"]
+                                            );
+  return $docker;
+}
+
+function componerDockerJSONTresServicios($docker, $params){
+  $docker["container"]["services"] = array($params["servicio1"],$params["servicio2"],$params["servicio3"]);  
+  $docker["container"]["volumes"] = array(
+                                          $params["servicio1"] => array("dbdata:/var/lib/mysql", "script.sql:/dbScript/script.sql"), 
+                                          $params["servicio2"] => array("wordpress:/var/www/html/wordpress", ".htaccess:/var/www/html/.htaccess"),
+                                          $params["servicio3"] => array("dbdata:/var/lib/nginx", "script.sql:/dbScript/script.sql")
+                                        );
+  $docker["container"]["publicPorts"] = array($params["servicio1"] => $params["servicio1"]["puertoPublic"], 
+                                              $params["servicio2"] => $params["servicio2"]["puertoPublic"], 
+                                              $params["servicio3"] => $params["servicio3"]["puertoPublic"] 
+                                            );
+  $docker["container"]["privatePorts"] = array($params["servicio1"] => $params["servicio1"]["puertoPriv"],
+                                               $params["servicio2"] => $params["servicio2"]["puertoPriv"],
+                                               $params["servicio3"] => $params["servicio3"]["puertoPriv"]
+                                            );
+  return $docker;
+}
+
+function componerDockerJSONCuatroServicios($docker, $params){
+  $docker["container"]["services"] = array($params["servicio1"],$params["servicio2"],$params["servicio3"],$params["servicio4"]);  
+  $docker["container"]["volumes"] = array(
+                                          $params["servicio1"] => array("dbdata:/var/lib/mysql", "script.sql:/dbScript/script.sql"), 
+                                          $params["servicio2"] => array("wordpress:/var/www/html/wordpress", ".htaccess:/var/www/html/.htaccess"),
+                                          $params["servicio3"] => array("dbdata:/var/lib/nginx", "script.sql:/dbScript/script.sql"), 
+                                          $params["servicio4"] => array("wordpress:/var/www/html/wordpress", ".htaccess:/var/www/html/.htaccess")
+                                        );
+  $docker["container"]["publicPorts"] = array($params["servicio1"] => $params["servicio1"]["puertoPublic"], 
+                                              $params["servicio2"] => $params["servicio2"]["puertoPublic"], 
+                                              $params["servicio3"] => $params["servicio3"]["puertoPublic"], 
+                                              $params["servicio4"] => $params["servicio4"]["puertoPublic"]
+                                            );
+  $docker["container"]["privatePorts"] = array($params["servicio1"] => $params["servicio1"]["puertoPriv"],
+                                               $params["servicio2"] => $params["servicio2"]["puertoPriv"],
+                                               $params["servicio3"] => $params["servicio3"]["puertoPriv"],
+                                               $params["servicio4"] => $params["servicio4"]["puertoPriv"]
+                                            );
+  return $docker;
+}
 ?>

@@ -168,6 +168,41 @@ def createDockerComposeFile(data):
          dockerComposeFile.write(
          "     ports:\n" +
          "       - '" + data["container"]["publicPorts"]["apache2"] + ":" + data["container"]["privatePorts"]["apache2"] + "'\n")
+         
+      if services == "nginx":
+         dockerComposeFile.write(
+         "   webNginx-" + data["container"]["containerName"] + ":\n" +
+         "     image: nginx:latest\n" +
+         "     container_name: webNginx-" + data["container"]["containerName"] + "\n" +
+         "     volumes:\n")
+         
+         # Recorremos los volumenes necesarios para el servicio apache2
+         for volumes in data["container"]["volumes"]["nginx"]:
+            # os.system("mkdir")
+            dockerComposeFile.write("       - ./" + volumes + "\n")
+         
+         # Esta parte no queremos que se repita tantas veces como volumenes existentes haya asique lo dejamos fuera del array
+         dockerComposeFile.write(
+         "     ports:\n" +
+         "       - '" + data["container"]["publicPorts"]["nginx"] + ":" + data["container"]["privatePorts"]["nginx"] + "'\n")
+
+      if services == "mongo":
+         dockerComposeFile.write(
+         "   dbMongo-" + data["container"]["containerName"] + ":\n" +
+         "     image: mongo:latest\n" +
+         "     container_name: dbMongo-" + data["container"]["containerName"] + "\n" +
+         "     volumes:\n")
+         
+         # Recorremos los volumenes necesarios para el servicio apache2
+         for volumes in data["container"]["volumes"]["mongo"]:
+            # os.system("mkdir")
+            dockerComposeFile.write("       - ./" + volumes + "\n")
+         
+         # Esta parte no queremos que se repita tantas veces como volumenes existentes haya asique lo dejamos fuera del array
+         dockerComposeFile.write(
+         "     ports:\n" +
+         "       - '" + data["container"]["publicPorts"]["mongo"] + ":" + data["container"]["privatePorts"]["mongo"] + "'\n")
+            
    # Cerramos el archivo docker-compose.yml         
    dockerComposeFile.close()
 
