@@ -187,7 +187,7 @@ deploy_gui_prod:
   image: ictu/sshpass:latest
   stage: deploy
   script:
-    - export SSHPASS=$DEV_SERVER_PASSWORD
+    - export SSHPASS=$PROD_SERVER_PASSWORD
     - sshpass -e scp -oUserKnownHostsFile=/dev/null -oStrictHostKeyChecking=no -r PHP/WEB/* ${PROD_SERVER_USER}@${PROD_SERVER_ADDRESS}:${DOCKER_COMPOSE_GUI_WEB_DEPLOY_PATH}
   needs: ["deploy_python_tool_dev"]
   only:
