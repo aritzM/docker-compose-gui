@@ -3,21 +3,27 @@
     "container":
     {
         "containerName":"wordpress",
-        "services":["apache2","mysql","php"],
+        "services":["apache2","mysql","nginx","mongo"],
         "volumes":
         {
             "mysql": ["dbdata:\/var\/lib\/mysql", "script.sql:\/dbScript\/script.sql"],
-            "apache2":["wordpress:\/var\/www\/html\/wordpress", ".htaccess:\/var\/www\/html\/.htaccess"]
+            "apache2":["wordpress:\/var\/www\/html\/wordpress", ".htaccess:\/var\/www\/html\/.htaccess"],
+            "nginx": ["dbdata:\/var\/lib\/mysql", "script.sql:\/dbScript\/script.sql"],
+            "mongo":["wordpress:\/var\/www\/html\/wordpress", ".htaccess:\/var\/www\/html\/.htaccess"]
         },
         "publicPorts":
         {
             "apache2":"8080",
-            "mysql":"33306"
+            "mysql":"33306",
+            "nginx":"8081",
+            "mongo":"33307"
         },
         "privatePorts":
         {
-            "apache2":"80",
-            "mysql":"3306"
+            "apache2":"81",
+            "mysql":"3306",
+            "nginx":"82",
+            "mongo":"3307"
         }
     }
 }
