@@ -7,9 +7,9 @@ if(!isset($_SESSION['user']))
 {
   header("Location: index.php");
 }
+require 'funciones.php';
 if(isset($_POST["crear"]))
 {
-  require 'funciones.php';
   $exec = false;
   $docker = array("execUser" => null,
                   "container" => 
@@ -234,7 +234,10 @@ if(isset($_POST["crear"]))
   <?php 
     include 'header.php';
     include 'menu.html';
-    print("Hola");
+    /*$result = checkOpenedPorts();
+    for($i = 0; $i < count($result); $i++){ 
+      $result[$i];
+    }*/
   ?>
   
   <main id="main" class="main">

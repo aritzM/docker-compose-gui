@@ -161,4 +161,25 @@ function componerDockerJSONCuatroServicios($docker, $params){
                                             );
   return $docker;
 }
+
+function checkOpenedPorts(){
+  $result = array();
+  $count = 0;
+  for($i = 0; $i < 65535; $i++){
+    if(checkPortOpen($i) != true){
+      $result[$count] = $i;
+      $count++;
+    }
+  }
+  return $result;
+}
+
+function checkPortOpen($port){
+  $result = false;
+  if(fsockopen("localhost",$port))
+  {
+    $result = true;
+  }
+  return $result;
+}
 ?>
