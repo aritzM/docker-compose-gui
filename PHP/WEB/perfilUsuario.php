@@ -4,7 +4,7 @@ if(!isset($_SESSION['user']))
 {
   header("Location: index.php");
 }
-require 'funciones.php';
+require 'comunes/funciones.php';
 $conn = conn();
 $result = "";
 if(isset($_POST["actualizar"]))

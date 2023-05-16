@@ -16,7 +16,7 @@ if(isset($_GET["detener"]))
 }
 if(isset($_POST["eliminar"]))
 {
-  require 'funciones.php';
+  require 'comunes/funciones.php';
   $contContainers = countServices($_SESSION['user']);
   if($contContainers != 0)
   {

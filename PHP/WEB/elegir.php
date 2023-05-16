@@ -6,7 +6,7 @@ if(!isset($_SESSION['user']))
 }
 if(isset($_POST["eliminar"]))
 {
-  require 'funciones.php';
+  require 'comunes/funciones.php';
   $contContainers = countServices($_SESSION['user']);
   if($contContainers != 0)
   {

@@ -162,6 +162,38 @@ function componerDockerJSONCuatroServicios($docker, $params){
   return $docker;
 }
 
+
+function mostrarPuertos($countServicios, $params){
+  if($countServicios == 1){
+    mostrarUnPuertos($params);
+  }
+  if($countServicios == 2){
+    mostrarDosPuertos($params);
+  }
+  if($countServicios == 3){
+    mostrarTresPuertos($params);
+  }
+  if($countServicios == 4){
+    mostrarCuatroPuertos($params);
+  }
+}
+
+function mostrarUnPuertos($params) {
+
+}
+
+function mostrarDosPuertos($params) {
+
+}
+
+function mostrarTresPuertos($params) {
+
+}
+
+function mostrarCuatroPuertos($params) {
+
+}
+
 function checkOpenedPorts(){
   $result = array();
   $count = 0;
