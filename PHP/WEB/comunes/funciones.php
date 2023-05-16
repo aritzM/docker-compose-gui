@@ -161,4 +161,40 @@ function componerDockerJSONCuatroServicios($docker, $params){
                                             );
   return $docker;
 }
+
+
+function mostrarPuertos($countServicios, $params){
+  for($i = 1; $i <= $countServicios; $i++){
+    mostrarUnPuertos($params["servicio".$i.""]);
+  }
+}
+
+function mostrarUnPuertos($param) {
+  echo "<tr>
+          <th scope=\"row\">". $param["name"] ."</th>
+          <td><input type=\"text\" name=\"puertoPriv". $param["name"] ."\" class=\"form-control\" value=\"". $param["puertoPriv"] ."\" readonly></td>
+          <td><input type=\"text\" name=\"puertoPublic". $param["name"] ."\" class=\"form-control\" placeholder=\"8080\"></td>
+        </tr>";
+}
+
+function checkOpenedPorts(){
+  $result = array();
+  $count = 0;
+  for($i = 0; $i < 65535; $i++){
+    if(checkPortOpen($i) != true){
+      $result[$count] = $i;
+      $count++;
+    }
+  }
+  return $result;
+}
+
+function checkPortOpen($port){
+  $result = false;
+  if(fsockopen("localhost",$port))
+  {
+    $result = true;
+  }
+  return $result;
+}
 ?>

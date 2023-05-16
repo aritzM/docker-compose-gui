@@ -4,7 +4,7 @@ if(isset($_POST['login']))
 {
   if(isset($_POST['username']) && isset($_POST['password']))
   { 
-    require "funciones.php";
+    require 'comunes/funciones.php';
     $conn = conn();
     $login = login($conn, $_POST['username'], $_POST['password']);
     

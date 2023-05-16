@@ -7,9 +7,9 @@ if(!isset($_SESSION['user']))
 {
   header("Location: index.php");
 }
+require 'comunes/funciones.php';
 if(isset($_POST["crear"]))
 {
-  require 'funciones.php';
   $exec = false;
   $docker = array("execUser" => null,
                   "container" => 
@@ -178,11 +178,11 @@ if(isset($_POST["crear"]))
     $fp = fopen('/var/www/html/docker-compose-gui/JSONs/docker-'. $_SESSION['user'] .'.json', 'w');
     fwrite($fp, json_encode($docker));
     fclose($fp);
-    //exec("echo L3h3nd@k@r1 | sudo docker-managment-backend -i /var/www/html/docker-compose-gui/JSONs/docker-". $_SESSION['user'] .".json -c");
-    //$contContainers = countServices($_SESSION['user']);
-    //$contContainers++;
-    //exec("echo L3h3nd@k@r1 | sudo mv /var/www/html/docker-compose-gui/JSONs/docker-". $_SESSION['user'] .".json /home/". $_SESSION['user'] ."/docker-" . $contContainers . ".json");
-    //header("Location: dashboard.php");  
+    exec("echo L3h3nd@k@r1 | sudo docker-managment-backend -i /var/www/html/docker-compose-gui/JSONs/docker-". $_SESSION['user'] .".json -c");
+    $contContainers = countServices($_SESSION['user']);
+    $contContainers++;
+    exec("echo L3h3nd@k@r1 | sudo mv /var/www/html/docker-compose-gui/JSONs/docker-". $_SESSION['user'] .".json /home/". $_SESSION['user'] ."/docker-" . $contContainers . ".json");
+    header("Location: dashboard.php");  
   }
 }
 ?>
@@ -216,7 +216,7 @@ if(isset($_POST["crear"]))
   <link href="assets/vendor/remixicon/remixicon.css" rel="stylesheet">
   <link href="assets/vendor/simple-datatables/style.css" rel="stylesheet">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
-  <script src="script.js"></script>
+  <script src="js/script.js"></script>
 
   <!-- Template Main CSS File -->
   <link href="assets/css/style.css" rel="stylesheet">
@@ -234,7 +234,10 @@ if(isset($_POST["crear"]))
   <?php 
     include 'header.php';
     include 'menu.html';
-    print("Hola");
+    /*$result = checkOpenedPorts();
+    for($i = 0; $i < count($result); $i++){ 
+      $result[$i];
+    }*/
   ?>
   
   <main id="main" class="main">
@@ -373,23 +376,23 @@ if(isset($_POST["crear"]))
                     <tbody>
                       <tr>
                         <th scope="row">Apache</th>
-                        <td><input type="text" name="puertoPrivApache" class="form-control" placeholder="8080"></td>
-                        <td><input type="text" name="puertoPublicApache" class="form-control" placeholder="80"></td>
+                        <td><input type="text" name="puertoPrivApache" class="form-control" value="80" readonly></td>
+                        <td><input type="text" name="puertoPublicApache" class="form-control" placeholder="8080"></td>
                       </tr>
                       <tr>
                         <th scope="row">Mysql</th>
-                        <td><input type="text" name="puertoPrivMysql" class="form-control" placeholder="33306"></td>
-                        <td><input type="text" name="puertoPublicMysql" class="form-control" placeholder="3306"></td>
+                        <td><input type="text" name="puertoPrivMysql" class="form-control" value="3306" readonly></td>
+                        <td><input type="text" name="puertoPublicMysql" class="form-control" placeholder="33306"></td>
                       </tr>
                       <tr>
                         <th scope="row">Mongo</th>
-                        <td><input type="text" name="puertoPrivMongo" class="form-control" placeholder="8080"></td>
-                        <td><input type="text" name="puertoPublicMongo" class="form-control" placeholder="80"></td>
+                        <td><input type="text" name="puertoPrivMongo" class="form-control" value="27017" readonly></td>
+                        <td><input type="text" name="puertoPublicMongo" class="form-control" placeholder="27017"></td>
                       </tr>
                       <tr>
                         <th scope="row">Nginx</th>
-                        <td><input type="text" name="puertoPrivNginx" class="form-control" placeholder="8080"></td>
-                        <td><input type="text" name="puertoPublicNginx" class="form-control" placeholder="80"></td>
+                        <td><input type="text" name="puertoPrivNginx" class="form-control" value="8000" readonly></td>
+                        <td><input type="text" name="puertoPublicNginx" class="form-control" placeholder="8081"></td>
                       </tr>
                     </tbody>
                   </table>

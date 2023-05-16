@@ -1,6 +1,5 @@
 $(document).ready(function() {
   inicio();
-  retroceso();
 });
 
 function inicio() {
@@ -23,27 +22,26 @@ function inicio() {
       }
   });
 
-}
-
-function retroceso() {
   $("button.btn.btn-primary").click(function(e) {
-      console.log("hola"+this.id);
-      e.preventDefault();
-      if (this.id == "volver-1") {
-        mostrarTabs("#v-pills-home-tab", "#v-pills-profile", "#v-pills-home");
-      }
-      if (this.id == "volver-2") {
-        $("#tabla thead th").each(function(){
-          if(this.innerHTML !== "Nº Volumen"){
-            this.remove();
-          }
-        })
-        mostrarTabs("#v-pills-profile-tab", "#v-pills-messages", "#v-pills-profile");
-      }
-      if (this.id == "volver-3") {
-        mostrarTabs("#v-pills-messages-tab", "#v-pills-port", "#v-pills-messages");
-      }
+    console.log("hola"+this.id);
+    e.preventDefault();
+    if (this.id == "volver-1") {
+      mostrarTabs("#v-pills-home-tab", "#v-pills-profile", "#v-pills-home");
+    }
+    if (this.id == "volver-2") {
+      $("#tabla thead th").each(function(){
+        if(this.innerHTML !== "Nº Volumen"){
+          this.remove();
+        }
+      })
+      mostrarTabs("#v-pills-profile-tab", "#v-pills-messages", "#v-pills-profile");
+    }
+    if (this.id == "volver-3") {
+      mostrarTabs("#v-pills-messages-tab", "#v-pills-port", "#v-pills-messages");
+    }
   });
+
+  $("#tablaPuertos").append("comunes/ajax/mostrarPuertos.php?apache2=true&mysql=true&mongo=true&nginx=true");
 }
 
 function mostrarTabs(idTabMostrar, idTabContenidoOcultar, idTabContenidoMostrar) {
