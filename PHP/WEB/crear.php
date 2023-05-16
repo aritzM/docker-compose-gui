@@ -178,11 +178,11 @@ if(isset($_POST["crear"]))
     $fp = fopen('/var/www/html/docker-compose-gui/JSONs/docker-'. $_SESSION['user'] .'.json', 'w');
     fwrite($fp, json_encode($docker));
     fclose($fp);
-    //exec("echo L3h3nd@k@r1 | sudo docker-managment-backend -i /var/www/html/docker-compose-gui/JSONs/docker-". $_SESSION['user'] .".json -c");
-    //$contContainers = countServices($_SESSION['user']);
-    //$contContainers++;
-    //exec("echo L3h3nd@k@r1 | sudo mv /var/www/html/docker-compose-gui/JSONs/docker-". $_SESSION['user'] .".json /home/". $_SESSION['user'] ."/docker-" . $contContainers . ".json");
-    //header("Location: dashboard.php");  
+    exec("echo L3h3nd@k@r1 | sudo docker-managment-backend -i /var/www/html/docker-compose-gui/JSONs/docker-". $_SESSION['user'] .".json -c");
+    $contContainers = countServices($_SESSION['user']);
+    $contContainers++;
+    exec("echo L3h3nd@k@r1 | sudo mv /var/www/html/docker-compose-gui/JSONs/docker-". $_SESSION['user'] .".json /home/". $_SESSION['user'] ."/docker-" . $contContainers . ".json");
+    header("Location: dashboard.php");  
   }
 }
 ?>
