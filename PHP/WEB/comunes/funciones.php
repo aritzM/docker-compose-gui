@@ -164,34 +164,17 @@ function componerDockerJSONCuatroServicios($docker, $params){
 
 
 function mostrarPuertos($countServicios, $params){
-  if($countServicios == 1){
-    mostrarUnPuertos($params);
-  }
-  if($countServicios == 2){
-    mostrarDosPuertos($params);
-  }
-  if($countServicios == 3){
-    mostrarTresPuertos($params);
-  }
-  if($countServicios == 4){
-    mostrarCuatroPuertos($params);
+  for($i = 1; $i <= $countServicios; $i++){
+    mostrarUnPuertos($params["servicio".$i.""]);
   }
 }
 
-function mostrarUnPuertos($params) {
-
-}
-
-function mostrarDosPuertos($params) {
-
-}
-
-function mostrarTresPuertos($params) {
-
-}
-
-function mostrarCuatroPuertos($params) {
-
+function mostrarUnPuertos($param) {
+  echo "<tr>
+          <th scope=\"row\">". $param["name"] ."</th>
+          <td><input type=\"text\" name=\"puertoPriv". $param["name"] ."\" class=\"form-control\" value=\"". $param["puertoPriv"] ."\" readonly></td>
+          <td><input type=\"text\" name=\"puertoPublic". $param["name"] ."\" class=\"form-control\" placeholder=\"8080\"></td>
+        </tr>";
 }
 
 function checkOpenedPorts(){

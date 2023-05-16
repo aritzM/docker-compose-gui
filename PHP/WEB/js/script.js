@@ -40,6 +40,8 @@ function inicio() {
       mostrarTabs("#v-pills-messages-tab", "#v-pills-port", "#v-pills-messages");
     }
   });
+
+  $("#tablaPuertos").append("comunes/ajax/mostrarPuertos.php?apache2=true&mysql=true&mongo=true&nginx=true");
 }
 
 function mostrarTabs(idTabMostrar, idTabContenidoOcultar, idTabContenidoMostrar) {
