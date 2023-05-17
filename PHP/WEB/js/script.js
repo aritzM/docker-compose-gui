@@ -69,3 +69,13 @@ function mostrarTabs(idTabMostrar, idTabContenidoOcultar, idTabContenidoMostrar)
   $(idTabContenidoMostrar).addClass("active");
   $(idTabContenidoMostrar).addClass("show");
 }
+
+function crearFilaVolumen(nombreServicio,numeroVolumen) {
+  var html="<td><input type=\"text\" name=\"volumen"+nombreServicio+""+numeroVolumen+"\" class=\"form-control\" placeholder=\"volumen1:volumenDocker\"></td>";
+  return html;
+}
+
+function crearFilaVolumenes(numeroVolumen,htmlFilas){
+  var html="<tr>"+ "<th scope=\"row\">"+ numeroVolumen +"</th>"+htmlFilas + "</tr>";
+  $("#tabla > tbody").append(html);
+}
