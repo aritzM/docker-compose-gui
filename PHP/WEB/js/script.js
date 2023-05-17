@@ -3,6 +3,7 @@ $(document).ready(function() {
 });
 
 function inicio() {
+var numeroVolumen = 1;
   $("button.btn.btn-next").click(function(e) {
       console.log(this.id);
       e.preventDefault();
@@ -13,22 +14,27 @@ function inicio() {
         var servicios=[];
         var count=0;
         var endpoint = "comunes/ajax/mostrarPuertos.php?";
+        var htmlFilas="";
         $('#checkbox input:checked').each(function() {
           $("#tabla >thead tr").append("<th scope=\"col\">"+this.name+"</th>");
           if(this.name == "apache2"){
             endpoint += "apache2=true&";
+            htmlFilas+= crearFilaVolumen("Apache",numeroVolumen);
           }
           if(this.name == "mysql"){
             endpoint += "mysql=true&";
+            htmlFilas+= crearFilaVolumen("Mysql",numeroVolumen);
           }
           if(this.name == "mongo"){
             endpoint += "mongo=true&";
+            htmlFilas+= crearFilaVolumen("Mongo",numeroVolumen);
           }
           if(this.name == "nginx"){
             endpoint += "nginx=true&";
+            htmlFilas+= crearFilaVolumen("Nginx",numeroVolumen);
           }
-          
         });
+        crearFilaVolumenes(numeroVolumen,htmlFilas);
         $("#tablaPuertos > tbody").load(endpoint);
         mostrarTabs('#v-pills-messages-tab',"#v-pills-profile","#v-pills-messages");
       }
