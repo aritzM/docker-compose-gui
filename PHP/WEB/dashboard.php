@@ -105,7 +105,7 @@ if(isset($_POST["eliminar"]))
 
             <!-- Sales Card -->
             <?php // PRINCIPIO CARGA CONTENEDORES POR USUARIO 
-              require 'funciones.php';
+              require 'comunes/funciones.php';
               $contContainers = countServices($_SESSION['user']);
               if($contContainers != 0)
               {
