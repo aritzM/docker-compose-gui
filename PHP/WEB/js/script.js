@@ -12,9 +12,24 @@ function inicio() {
       if (this.id == "2") {
         var servicios=[];
         var count=0;
+        var endpoint = "comunes/ajax/mostrarPuertos.php?";
         $('#checkbox input:checked').each(function() {
-          $("#tabla >thead tr").append("<th scope=\"col\">"+this.name+"</th>")
-        })
+          $("#tabla >thead tr").append("<th scope=\"col\">"+this.name+"</th>");
+          if(this.name == "apache2"){
+            endpoint += "apache2=true&";
+          }
+          if(this.name == "mysql"){
+            endpoint += "mysql=true&";
+          }
+          if(this.name == "mongo"){
+            endpoint += "mongo=true&";
+          }
+          if(this.name == "nginx"){
+            endpoint += "nginx=true&";
+          }
+          
+        });
+        $("#tablaPuertos > tbody").load(endpoint);
         mostrarTabs('#v-pills-messages-tab',"#v-pills-profile","#v-pills-messages");
       }
       if (this.id == "3") {
@@ -41,7 +56,7 @@ function inicio() {
     }
   });
 
-  $("#tablaPuertos").append("comunes/ajax/mostrarPuertos.php?apache2=true&mysql=true&mongo=true&nginx=true");
+  
 }
 
 function mostrarTabs(idTabMostrar, idTabContenidoOcultar, idTabContenidoMostrar) {
