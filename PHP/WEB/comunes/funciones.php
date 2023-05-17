@@ -106,17 +106,22 @@ function componerDockerJSON($usuario, $nombreContenedor, $descripcion, $cantidad
 }
 
 function mostrarPuertos($countServicios, $params){
+  $openedPorts = checkOpenedPorts();
   for($i = 1; $i <= $countServicios; $i++){
-    mostrarUnPuertos($params["servicio".$i.""]);
+    mostrarUnPuertos($params["servicio".$i.""], $openedPorts);
   }
 }
 
-function mostrarUnPuertos($param) {
-  echo "<tr>
-          <th scope=\"row\">". $param["name"] ."</th>
-          <td><input type=\"text\" name=\"puertoPriv". $param["name"] ."\" class=\"form-control\" value=\"". $param["puertoPriv"] ."\" readonly></td>
-          <td><input type=\"text\" name=\"puertoPublic". $param["name"] ."\" class=\"form-control\" placeholder=\"8080\"></td>
-        </tr>";
+function mostrarUnPuertos($param, $openedPorts) {
+  echo "<tr>";
+  echo "<th scope=\"row\">". $param["name"] ."</th>";
+  echo "<td><input type=\"text\" name=\"puertoPriv". $param["name"] ."\" class=\"form-control\" value=\"". $param["puertoPriv"] ."\" readonly></td>";
+  echo "<td><select name=\"puertoPublic". $param["name"] ."\" class=\"form-control\" >";
+  
+  for($i = 0; $i < count($openedPorts); $i++){
+    echo "<option value=\"".$openedPorts[$i]."\">".$openedPorts[$i]."</option>";
+  }
+  echo "</select></td></tr>";
 }
 
 function checkOpenedPorts(){
