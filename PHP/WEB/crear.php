@@ -365,7 +365,7 @@ if(isset($_POST["crear"]))
 
                 <div class="tab-pane fade" id="v-pills-port" role="tabpanel" aria-labelledby="v-pills-port-tab">
                   <!--Este apartado se deberia de generar dependiendo de los servicios añadidos en el checkbox de servicios-->
-                  <table class="table">
+                  <table class="table" id="tablaPuertos">
                     <thead>
                       <tr>
                         <th scope="col">Puertos</th>
@@ -374,26 +374,6 @@ if(isset($_POST["crear"]))
                       </tr>
                     </thead>
                     <tbody>
-                      <tr>
-                        <th scope="row">Apache</th>
-                        <td><input type="text" name="puertoPrivApache" class="form-control" value="80" readonly></td>
-                        <td><input type="text" name="puertoPublicApache" class="form-control" placeholder="8080"></td>
-                      </tr>
-                      <tr>
-                        <th scope="row">Mysql</th>
-                        <td><input type="text" name="puertoPrivMysql" class="form-control" value="3306" readonly></td>
-                        <td><input type="text" name="puertoPublicMysql" class="form-control" placeholder="33306"></td>
-                      </tr>
-                      <tr>
-                        <th scope="row">Mongo</th>
-                        <td><input type="text" name="puertoPrivMongo" class="form-control" value="27017" readonly></td>
-                        <td><input type="text" name="puertoPublicMongo" class="form-control" placeholder="27017"></td>
-                      </tr>
-                      <tr>
-                        <th scope="row">Nginx</th>
-                        <td><input type="text" name="puertoPrivNginx" class="form-control" value="8000" readonly></td>
-                        <td><input type="text" name="puertoPublicNginx" class="form-control" placeholder="8081"></td>
-                      </tr>
                     </tbody>
                   </table>
 
