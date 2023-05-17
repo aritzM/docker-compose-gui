@@ -84,7 +84,7 @@ if(isset($_POST["actualizar"]))
                     
                     if(isset($_GET["usuario"]))
                     {
-                        require 'funciones.php';
+                        require 'comunes/funciones.php';
                         $_SESSION['usuarioActualizar'] = $_GET["usuario"];
                         $conn = conn();
                         $sql = "SELECT * FROM users WHERE username = ?";
