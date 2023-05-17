@@ -49,6 +49,9 @@ function inicio() {
           this.remove();
         }
       })
+      $("#tabla tbody tr").each(function(){
+          this.remove();
+      })
       mostrarTabs("#v-pills-profile-tab", "#v-pills-messages", "#v-pills-profile");
     }
     if (this.id == "volver-3") {
