@@ -127,7 +127,8 @@ function mostrarUnPuertos($param, $openedPorts) {
 function checkOpenedPorts(){
   $result = array();
   $count = 0;
-  for($i = 0; $i < 65535; $i++){
+  //Max ports in server: 65535
+  for($i = 8000; $i < 20000; $i++){
     if(checkPortOpen($i) != true){
       $result[$count] = $i;
       $count++;
