@@ -15,37 +15,43 @@ function inicio() {
           mostrarTabs('#v-pills-profile-tab',"#v-pills-home","#v-pills-profile");
       }
       if (this.id == "2") {
-        var endpoint = "comunes/ajax/mostrarPuertos.php?";
-        var htmlFilas="";
-        $('#checkbox input:checked').each(function() {
-          
-          if(this.name == "apache2"){
-            apache = true;
-            endpoint += "apache2=true&";
-            $("#tabla >thead tr").append("<th scope=\"col\">Apache</th>");
-            htmlFilas+= crearFilaVolumen("Apache",numeroVolumen);
-          }
-          if(this.name == "mysql"){
-            mysql = true;
-            endpoint += "mysql=true&";
-            $("#tabla >thead tr").append("<th scope=\"col\">Mysql</th>");
-            htmlFilas+= crearFilaVolumen("Mysql",numeroVolumen);
-          }
-          if(this.name == "mongo"){
-            mongo = true;
-            endpoint += "mongo=true&";
-            $("#tabla >thead tr").append("<th scope=\"col\">Mongo</th>");
-            htmlFilas+= crearFilaVolumen("Mongo",numeroVolumen);
-          }
-          if(this.name == "nginx"){
-            nginx = true;
-            endpoint += "nginx=true&";
-            $("#tabla >thead tr").append("<th scope=\"col\">Nginx</th>");
-            htmlFilas+= crearFilaVolumen("Nginx",numeroVolumen);
-          }
-        });
-        crearFilaVolumenes(numeroVolumen,htmlFilas);
-        $("#tablaPuertos > tbody").load(endpoint);
+        var endpoint = "comunes/ajax/mostrar.php?";
+        if(actualizar){
+          endpoint += "cargar=true&usuario="+usuario+"&numeroContenedor="+numeroContenedor+"&";
+          $("#tabla > tbody").load(endpoint+"volumenes=true");
+          $("#tablaPuertos > tbody").load(endpoint+"puertos=true");
+        } else {
+          var htmlFilas="";
+          $('#checkbox input:checked').each(function() {
+            
+            if(this.name == "apache2"){
+              apache = true;
+              endpoint += "apache2=true&";
+              $("#tabla >thead tr").append("<th scope=\"col\">Apache</th>");
+              htmlFilas += crearFilaVolumen("Apache",numeroVolumen);            
+            }
+            if(this.name == "mysql"){
+              mysql = true;
+              endpoint += "mysql=true&";
+              $("#tabla >thead tr").append("<th scope=\"col\">Mysql</th>");
+              htmlFilas+= crearFilaVolumen("Mysql",numeroVolumen);
+            }
+            if(this.name == "mongo"){
+              mongo = true;
+              endpoint += "mongo=true&";
+              $("#tabla >thead tr").append("<th scope=\"col\">Mongo</th>");
+              htmlFilas+= crearFilaVolumen("Mongo",numeroVolumen);
+            }
+            if(this.name == "nginx"){
+              nginx = true;
+              endpoint += "nginx=true&";
+              $("#tabla >thead tr").append("<th scope=\"col\">Nginx</th>");
+              htmlFilas+= crearFilaVolumen("Nginx",numeroVolumen);  
+            }
+            crearFilaVolumenes(numeroVolumen,htmlFilas);
+            $("#tablaPuertos > tbody").load(endpoint);
+          });
+        }
         mostrarTabs('#v-pills-messages-tab',"#v-pills-profile","#v-pills-messages");
       }
       if (this.id == "3") {

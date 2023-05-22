@@ -88,6 +88,11 @@ if(isset($_POST["actualizar"]))
   <link href="assets/vendor/quill/quill.bubble.css" rel="stylesheet">
   <link href="assets/vendor/remixicon/remixicon.css" rel="stylesheet">
   <link href="assets/vendor/simple-datatables/style.css" rel="stylesheet">
+  <script type="text/javascript">
+    var actualizar=true;
+    var usuario="<?php echo $_SESSION["user"]?>";
+    var numeroContenedor="<?php echo $_GET["contenedor"]?>";
+  </script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
   <script src="js/script.js"></script>
 
@@ -279,7 +284,7 @@ if(isset($_POST["actualizar"]))
 
                   <div class="tab-pane fade" id="v-pills-port" role="tabpanel" aria-labelledby="v-pills-port-tab">
                     <!--Este apartado se deberia de generar dependiendo de los servicios añadidos en el checkbox de servicios-->
-                    <table class="table">
+                    <table class="table" id="tablaPuertos">
                       <thead>
                         <tr>
                           <th scope="col">Puertos</th>
@@ -288,22 +293,6 @@ if(isset($_POST["actualizar"]))
                         </tr>
                       </thead>
                       <tbody>
-                        <tr>
-                          <th scope="row">Apache</th>
-                          <?php
-                            echo '<td><input type="text" name="puertoPrivApache" value="'. $container["container"]["privatePorts"]["apache2"] . '" class="form-control" placeholder="80"></td>';
-                            echo '<td><input type="text" name="puertoPublicApache" value="'. $container["container"]["publicPorts"]["apache2"] . '" class="form-control" placeholder="8080"></td>';
-                          ?>
-                        </tr>
-                        <tr>
-                          <th scope="row">Mysql</th>
-                          <?php
-                            echo '<td><input type="text" name="puertoPrivMysql" value="'. $container["container"]["privatePorts"]["mysql"] . '" class="form-control" placeholder="80"></td>';
-                            echo '<td><input type="text" name="puertoPublicMysql" value="'. $container["container"]["publicPorts"]["mysql"] . '" class="form-control" placeholder="8080"></td>';
-                          ?>
-                        </tr>
-                      
-                        
                       </tbody>
                     </table>
 
