@@ -88,6 +88,12 @@ if(isset($_POST["actualizar"]))
   <link href="assets/vendor/quill/quill.bubble.css" rel="stylesheet">
   <link href="assets/vendor/remixicon/remixicon.css" rel="stylesheet">
   <link href="assets/vendor/simple-datatables/style.css" rel="stylesheet">
+  <script type="text/javascript">
+    var actualizar=true;
+    var usuario="<?php echo $_SESSION["user"]?>";
+    var numeroContenedor="<?php echo $_GET["contenedor"]?>";
+  </script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
   <script src="js/script.js"></script>
 
   <!-- Template Main CSS File -->
@@ -132,19 +138,19 @@ if(isset($_POST["actualizar"]))
           <!-- Vertical Pills Tabs -->
           <div class="d-flex align-items-start" id="myFormu">
             <div class="nav flex-column nav-pills me-4" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-              <button class="nav-link active" id="v-pills-home-tab" data-bs-toggle="pill" data-bs-target="#v-pills-home" type="button" role="tab" aria-controls="v-pills-home" aria-selected="true">Nombre</button>
-              <button class="nav-link" id="v-pills-profile-tab" data-bs-toggle="pill" data-bs-target="#v-pills-profile" type="button" role="tab" aria-controls="v-pills-profile" aria-selected="false">Servicios</button>
-              <!--<button class="nav-link" id="v-pills-messages-tab" data-bs-toggle="pill" data-bs-target="#v-pills-messages" type="button" role="tab" aria-controls="v-pills-messages" aria-selected="false">Volumenes</button>-->
-              <button class="nav-link" id="v-pills-port-tab " data-bs-toggle="pill" data-bs-target="#v-pills-port  " type="button" role="tab" aria-controls="v-pills-port  " aria-selected="false">Puertos</button>
+              <button class="nav-link active" id="v-pills-home-tab" d type="button" role="tab" aria-selected="true">Nombre</button>
+              <button class="nav-link" id="v-pills-profile-tab"  type="button" role="tab"  aria-selected="false">Servicios</button>
+              <button class="nav-link" id="v-pills-messages-tab"  type="button" role="tab" aria-selected="false">Volumenes</button>
+              <button class="nav-link" id="v-pills-port-tab"  type="button" role="tab"  aria-selected="false">Puertos</button>
             </div>
 
             <form action="actualizarDocker.php" method="POST">
               <div class="tab-content" id="v-pills-tabContent">
                 <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">
                   
-                    <div class="row mb-3">
-                      <label for="inputText" class="col-sm-3 col-form-label">Nombre:</label>
-                      <div class="col-sm-6">
+                    <div class="row mb-10">
+                      <label for="inputText" class="col-sm-4 col-form-label">Nombre:</label>
+                      <div class="col-sm-10">
                         <?php echo '<input type="text" name="nombreServicio" value="' . $container["container"]["containerName"] . '" placeholder="Nombre del Servicio Ej: Wordpress" class="form-control"/>'; ?>
                       </div>
                     </div>
@@ -158,7 +164,7 @@ if(isset($_POST["actualizar"]))
                   
                     <div class="row mb-3">
                       <div class="col-sm-10">
-                        <button type="submit" class="btn btn-primary">Next</button>
+                        <button  class="btn btn-next" id="1">Next</button>
                       </div>
                     </div>
                     
@@ -225,15 +231,15 @@ if(isset($_POST["actualizar"]))
 
                     <div class="row mb-3">
                       <div class="col-sm-10">
-                        <button type="submit" class="btn btn-primary">Back</button>
-                        <button type="submit" class="btn btn-next">Next</button>
+                        <button type="button" class="btn btn-primary" aria-controls="v-pills-profile" id="volver-1">Back</button>
+                        <button type="button" class="btn btn-next" aria-controls="v-pills-profile" id="2">Next</button>
                       </div>
                     </div>
 
                   </div>
                   <div class="tab-pane fade" id="v-pills-messages" role="tabpanel" aria-labelledby="v-pills-messages-tab">
                     <!-- Esto se deberia de generar dependiendo de que checkbox se haya clickado -->
-                    <table class="table">
+                    <table class="table" id="tabla">
                       <thead>
                         <tr>
                           <th scope="col">Volumen</th>
@@ -270,15 +276,15 @@ if(isset($_POST["actualizar"]))
 
                     <div class="row mb-3">
                       <div class="col-sm-10">
-                        <button type="submit" class="btn btn-primary">Back</button>
-                        <button type="submit" class="btn btn-next">Next</button>
+                        <button type="button" class="btn btn-primary" id="volver-2">Back</button>
+                        <button type="button" class="btn btn-next" id="3">Next</button>
                       </div>
                     </div>
                   </div>
 
                   <div class="tab-pane fade" id="v-pills-port" role="tabpanel" aria-labelledby="v-pills-port-tab">
                     <!--Este apartado se deberia de generar dependiendo de los servicios añadidos en el checkbox de servicios-->
-                    <table class="table">
+                    <table class="table" id="tablaPuertos">
                       <thead>
                         <tr>
                           <th scope="col">Puertos</th>
@@ -287,29 +293,13 @@ if(isset($_POST["actualizar"]))
                         </tr>
                       </thead>
                       <tbody>
-                        <tr>
-                          <th scope="row">Apache</th>
-                          <?php
-                            echo '<td><input type="text" name="puertoPrivApache" value="'. $container["container"]["privatePorts"]["apache2"] . '" class="form-control" placeholder="80"></td>';
-                            echo '<td><input type="text" name="puertoPublicApache" value="'. $container["container"]["publicPorts"]["apache2"] . '" class="form-control" placeholder="8080"></td>';
-                          ?>
-                        </tr>
-                        <tr>
-                          <th scope="row">Mysql</th>
-                          <?php
-                            echo '<td><input type="text" name="puertoPrivMysql" value="'. $container["container"]["privatePorts"]["mysql"] . '" class="form-control" placeholder="80"></td>';
-                            echo '<td><input type="text" name="puertoPublicMysql" value="'. $container["container"]["publicPorts"]["mysql"] . '" class="form-control" placeholder="8080"></td>';
-                          ?>
-                        </tr>
-                      
-                        
                       </tbody>
                     </table>
 
                     <div class="row mb-3">
                       <div class="col-sm-10">
-                        <button type="submit" class="btn btn-primary">Back</button>
-                        <button type="submit" value="actualizar" name="actualizar" class="btn btn-next">Finish</button>
+                        <button type="button" class="btn btn-primary" id="volver-3">Back</button>
+                        <button type="submit" value="actualizar" name="actualizar" class="btn">Finish</button>
                       </div>
                     </div>
                   </div>

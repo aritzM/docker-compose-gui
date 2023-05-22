@@ -127,7 +127,8 @@ function mostrarUnPuertos($param, $openedPorts) {
 function checkOpenedPorts(){
   $result = array();
   $count = 0;
-  for($i = 0; $i < 65535; $i++){
+  //Max ports in server: 65535
+  for($i = 8000; $i < 20000; $i++){
     if(checkPortOpen($i) != true){
       $result[$count] = $i;
       $count++;
@@ -143,5 +144,44 @@ function checkPortOpen($port){
     $result = true;
   }
   return $result;
+}
+
+function cargarPuertos($data){
+  $openedPorts = checkOpenedPorts();
+  for($i=0; $i<count($data["container"]["services"]); $i++){
+    echo "<tr>";
+    $nombre = "";
+    if($data["container"]["services"][$i]=="apache2"){
+      $nombre = "Apache";
+    }
+    if($data["container"]["services"][$i]=="mysql"){
+      $nombre = "Mysql";
+    }
+    if($data["container"]["services"][$i]=="mongo"){
+      $nombre = "Mongo";
+    }
+    if($data["container"]["services"][$i]=="nginx"){
+      $nombre = "Nginx";
+    }
+    echo "<th scope=\"row\">". $nombre ."</th>";
+    echo "<td><input type=\"text\" name=\"puertoPriv". $data["container"]["services"][$i] ."\" class=\"form-control\" value=\"". $data["container"]["privatePorts"][$data["container"]["services"][$i]] ."\" readonly></td>";
+    echo "<td><select name=\"puertoPublic". $data["container"]["services"][$i] ."\" class=\"form-control\" >";
+    $puesto = false;
+    for($y = 0; $y < count($openedPorts); $y++){
+
+      if($data["container"]["publicPorts"][$data["container"]["services"][$i]] >= $openedPorts[$y]){
+        if(!$puesto){
+          echo "<option value=\"".$data["container"]["publicPorts"][$data["container"]["services"][$i]]." selected\">".$data["container"]["publicPorts"][$data["container"]["services"][$i]]."</option>";
+          $puesto=true;
+        }
+      }
+      echo "<option value=\"".$openedPorts[$y]."\">".$openedPorts[$y]."</option>";
+    }
+    echo "</select></td></tr>";
+  }
+}
+
+function cargarVolumenes($data){
+
 }
 ?>
