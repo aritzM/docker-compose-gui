@@ -335,7 +335,7 @@ if(isset($_POST["crear"]))
                   <div class="row mb-3">
                     <div class="col-sm-10">
                       <button type="button" class="btn btn-primary" id="volver-2" >Back</button>
-                      <button type="button" class="btn btn-primary" id="volver-2" >Añadir Volumenes</button>
+                      <button type="button" class="btn btn-primary" id="anadirVolumen" >Añadir Volumenes</button>
                       <button type="button" class="btn btn-next" id="3">Next</button>
                     </div>
                   </div>
