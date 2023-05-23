@@ -16,6 +16,7 @@ function inicio() {
       }
       if (this.id == "2") {
         var endpoint = "comunes/ajax/mostrar.php?";
+        $("#idInput").val(numeroVolumen);
         if(actualizar){
           $('#checkbox input:checked').each(function() {
             if(this.name == "apache2"){
@@ -101,6 +102,7 @@ function inicio() {
         numeroVolumen = parseInt($("#tabla > tbody tr:last th").text());
       }
       numeroVolumen++;
+      $("#idInput").val(numeroVolumen);
       if(apache){
         htmlFilas += crearFilaVolumen("Apache",numeroVolumen);
       }
