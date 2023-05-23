@@ -1,4 +1,14 @@
 <?php
+
+define("APACHE2_SERVICE_NAME","apache2");
+define("APACHE2_STRING_NAME","Apache");
+define("MYSQL_SERVICE_NAME","mysql");
+define("MYSQL_STRING_NAME","Mysql");
+define("MONGO_SERVICE_NAME","mongo");
+define("MONGO_STRING_NAME","Mongo");
+define("NGINX_SERVICE_NAME","nginx");
+define("NGINX_STRING_NAME","Nginx");
+
 function conn()
 {
     //Desarrollo (Local)
