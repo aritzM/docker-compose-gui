@@ -41,7 +41,6 @@ function inicio() {
         } else {
           var htmlFilas="";
           $('#checkbox input:checked').each(function() {
-            
             if(this.name == "apache2"){
               apache = true;
               endpoint += "apache2=true&";
@@ -65,10 +64,10 @@ function inicio() {
               endpoint += "nginx=true&";
               $("#tabla >thead tr").append("<th scope=\"col\">Nginx</th>");
               htmlFilas+= crearFilaVolumen("Nginx",numeroVolumen);  
-            }
-            crearFilaVolumenes(numeroVolumen,htmlFilas);
-            $("#tablaPuertos > tbody").load(endpoint);
+            }  
           });
+          $("#tablaPuertos > tbody").load(endpoint);
+          crearFilaVolumenes(numeroVolumen,htmlFilas);
         }
         mostrarTabs('#v-pills-messages-tab',"#v-pills-profile","#v-pills-messages");
       }
