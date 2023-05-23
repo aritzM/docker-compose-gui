@@ -164,16 +164,13 @@ function cargarPuertos($data){
       $nombre = "Nginx";
     }
     echo "<th scope=\"row\">". $nombre ."</th>";
-    echo "<td><input type=\"text\" name=\"puertoPriv". $data["container"]["services"][$i] ."\" class=\"form-control\" value=\"". $data["container"]["privatePorts"][$data["container"]["services"][$i]] ."\" readonly></td>";
-    echo "<td><select name=\"puertoPublic". $data["container"]["services"][$i] ."\" class=\"form-control\" >";
+    echo "<td><input type=\"text\" name=\"puertoPriv". $nombre ."\" class=\"form-control\" value=\"". $data["container"]["privatePorts"][$data["container"]["services"][$i]] ."\" readonly></td>";
+    echo "<td><select name=\"puertoPublic". $nombre ."\" class=\"form-control\" >";
     $puesto = false;
     for($y = 0; $y < count($openedPorts); $y++){
-
-      if($data["container"]["publicPorts"][$data["container"]["services"][$i]] >= $openedPorts[$y]){
-        if(!$puesto){
-          echo "<option value=\"".$data["container"]["publicPorts"][$data["container"]["services"][$i]]." selected\">".$data["container"]["publicPorts"][$data["container"]["services"][$i]]."</option>";
-          $puesto=true;
-        }
+      if(!$puesto){
+        echo "<option value=\"".$data["container"]["publicPorts"][$data["container"]["services"][$i]]." selected\">".$data["container"]["publicPorts"][$data["container"]["services"][$i]]."</option>";
+        $puesto=true;
       }
       echo "<option value=\"".$openedPorts[$y]."\">".$openedPorts[$y]."</option>";
     }
@@ -181,7 +178,41 @@ function cargarPuertos($data){
   }
 }
 
-function cargarVolumenes($data){
-
+function crearFilaVolumen($data, $countFila){
+  $htmlResult = "";
+  for($i=0; $i < count($data["container"]["services"]); $i++){
+    $htmlResult = $htmlResult . crearColumnaVolumenDServicio($data, $data["container"]["services"][$i], $countFila);
+  }
+  return $htmlResult;
 }
+
+function maxVolumenes($data){
+  $maxResult = 0;
+  for($i=0; $i < count($data["container"]["services"]); $i++){
+    $nombreServicio = $data["container"]["services"][$i];
+    if($maxResult < count($data["container"]["volumes"][$nombreServicio])){
+      $maxResult = count($data["container"]["volumes"][$data["container"]["services"][$i]]);
+    }
+  }
+  return $maxResult;
+}
+
+function cargarFilasVolumenes($data){
+  $countFila = 0;
+  while($countFila < maxVolumenes($data)){
+    $htmlResult = crearFilaVolumen($data, $countFila); 
+    echo "<tr>";
+    echo "<th scope=\"row\">". ($countFila + 1) ."</th>";
+    echo $htmlResult;
+    echo "</tr>";
+    $countFila++;
+  }
+}
+
+function crearColumnaVolumenDServicio($data, $nombreServicio, $filaObtener){
+  $data["container"]["volumes"][$nombreServicio][$filaObtener];
+  $htmlResult = "<td><input type=\"text\" name=\"volumenApache1\" value=\"".$data["container"]["volumes"][$nombreServicio][$filaObtener]."\" class=\"form-control\" placeholder=\"volumen1:volumenDocker\"></td>";
+  return $htmlResult;
+}
+
 ?>

@@ -17,6 +17,24 @@ function inicio() {
       if (this.id == "2") {
         var endpoint = "comunes/ajax/mostrar.php?";
         if(actualizar){
+          $('#checkbox input:checked').each(function() {
+            if(this.name == "apache2"){
+              apache = true;
+              $("#tabla >thead tr").append("<th scope=\"col\">Apache</th>");            
+            }
+            if(this.name == "mysql"){
+              mysql = true;
+              $("#tabla >thead tr").append("<th scope=\"col\">Mysql</th>");
+            }
+            if(this.name == "mongo"){
+              mongo = true;
+              $("#tabla >thead tr").append("<th scope=\"col\">Mongo</th>");
+            }
+            if(this.name == "nginx"){
+              nginx = true;
+              $("#tabla >thead tr").append("<th scope=\"col\">Nginx</th>");
+            }
+          });
           endpoint += "cargar=true&usuario="+usuario+"&numeroContenedor="+numeroContenedor+"&";
           $("#tabla > tbody").load(endpoint+"volumenes=true");
           $("#tablaPuertos > tbody").load(endpoint+"puertos=true");
@@ -80,6 +98,9 @@ function inicio() {
     }
     if(this.id == "anadirVolumen"){
       var htmlFilas = "";
+      if(actualizar){
+        numeroVolumen = parseInt($("#tabla > tbody tr:last th").text());
+      }
       numeroVolumen++;
       if(apache){
         htmlFilas += crearFilaVolumen("Apache",numeroVolumen);
