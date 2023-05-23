@@ -54,6 +54,7 @@ if(!isset($_SESSION['user']))
   <?php 
     include 'header.php';
     include 'menu.html';
+    require 'comunes/funciones.php';
   ?>
   
   <main id="main" class="main">
@@ -76,7 +77,7 @@ if(!isset($_SESSION['user']))
               for($i=0;$i<$tam;$i++)
               { 
                 echo '<h3>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Serv: ' . $container["container"]["services"][$i] . '</h3>';
-                if($container["container"]["services"][$i] == "mysql")
+                if($container["container"]["services"][$i] == MYSQL_SERVICE_NAME)
                 {
                   $tam1 = count($container["container"]["volumes"]["mysql"]);
                   for($y=0;$y<$tam1;$y++)
@@ -87,7 +88,7 @@ if(!isset($_SESSION['user']))
                   echo '<h5>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Puerto: ' . $container["container"]["publicPorts"]["mysql"] . '</h5>';
                   //echo '<h1>' . $container["container"]["publicPorts"]["mysql"] .'</h1>';
                 }
-                if($container["container"]["services"][$i] == "apache2")
+                if($container["container"]["services"][$i] == APACHE2_SERVICE_NAME)
                 {
                   $tam1 = count($container["container"]["volumes"]["apache2"]);
                   for($y=0;$y<$tam1;$y++)
@@ -96,6 +97,28 @@ if(!isset($_SESSION['user']))
                     //echo '<h1>' . $container["container"]["volumes"]["mysql"][$i] .'</h1>';
                   }
                   echo '<h5>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Puerto: ' . $container["container"]["publicPorts"]["apache2"] . '</h5>';
+                  //echo '<h1>' . $container["container"]["publicPorts"]["mysql"] .'</h1>';
+                }
+                if($container["container"]["services"][$i] == MONGO_SERVICE_NAME)
+                {
+                  $tam1 = count($container["container"]["volumes"]["mongo"]);
+                  for($y=0;$y<$tam1;$y++)
+                  { 
+                    echo '<h5>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Volumen: ' . $container["container"]["volumes"]["mongo"][$y] .'</h5>';
+                    //echo '<h1>' . $container["container"]["volumes"]["mysql"][$i] .'</h1>';
+                  }
+                  echo '<h5>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Puerto: ' . $container["container"]["publicPorts"]["mongo"] . '</h5>';
+                  //echo '<h1>' . $container["container"]["publicPorts"]["mysql"] .'</h1>';
+                }
+                if($container["container"]["services"][$i] == NGINX_SERVICE_NAME)
+                {
+                  $tam1 = count($container["container"]["volumes"]["nginx"]);
+                  for($y=0;$y<$tam1;$y++)
+                  { 
+                    echo '<h5>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Volumen: ' . $container["container"]["volumes"]["nginx"][$y] .'</h5>';
+                    //echo '<h1>' . $container["container"]["volumes"]["mysql"][$i] .'</h1>';
+                  }
+                  echo '<h5>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Puerto: ' . $container["container"]["publicPorts"]["nginx"] . '</h5>';
                   //echo '<h1>' . $container["container"]["publicPorts"]["mysql"] .'</h1>';
                 }
               }
