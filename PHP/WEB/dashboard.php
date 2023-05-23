@@ -119,6 +119,7 @@ if(isset($_POST["eliminar"]))
               <div class="card info-card sales-card">
 
                 <div class="filter">
+                <i class="bi bi bi-play-circle-fill text-success"></i>
                   <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
                   <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
                     <li class="dropdown-header text-start">
@@ -138,7 +139,6 @@ if(isset($_POST["eliminar"]))
                   <?php 
                     echo $container["container"]["containerName"];
                   ?> <span>| Descripcion:</span></h5>
-
                   <!--<div class="d-flex align-items-center">
                     <div class="ps-3">
                       <h6>145</h6>
