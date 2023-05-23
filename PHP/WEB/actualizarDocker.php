@@ -7,56 +7,170 @@ if(!isset($_SESSION['user']))
 {
   header("Location: index.php");
 }
+require 'comunes/funciones.php';
 if(isset($_POST["actualizar"]))
-{
-  $array = json_decode(file_get_contents("/home/" . $_SESSION['user'] . "/docker-" . $_SESSION["numCont"] . ".json"), true);
-  
+{ 
   if(isset($_POST["nombreServicio"]) && isset($_POST["descripcion"]))
   {
-    
-    $array["execUser"] = $_SESSION["user"];
-    
-    $array["container"]["containerName"] = $_POST["nombreServicio"];
-    $array["container"]["descripcion"] = $_POST["descripcion"];
-    
-    if(isset($_POST["apache2"]) && isset($_POST["mysql"]))
-    {
-      $array["container"]["services"] = array("apache2","mysql");  
-      $array["container"]["volumes"] = array(
-                                              "mysql" => array("dbdata:/var/lib/mysql", "script.sql:/dbScript/script.sql"), 
-                                              "apache2" => array("wordpress:/var/www/html/wordpress", ".htaccess:/var/www/html/.htaccess")
-                                            );
-      $array["container"]["publicPorts"] = array("apache2" => $_POST["puertoPublicApache"], "mysql" => $_POST["puertoPublicMysql"]);
-      $array["container"]["privatePorts"] = array("apache2" => $_POST["puertoPrivApache"], "mysql" => $_POST["puertoPrivMysql"]);
-      
-    }
-    else
-    {
-      if(isset($_POST["apache2"]))
+    if(isset($_POST["apache2"]) && isset($_POST["mysql"]) && isset($_POST["nginx"]) && isset($_POST["mongo"])) {
+      $params["servicio1"]["name"] = APACHE2_SERVICE_NAME;
+      $params["servicio2"]["name"] = MYSQL_SERVICE_NAME;
+      $params["servicio3"]["name"] = NGINX_SERVICE_NAME;
+      $params["servicio4"]["name"] = MONGO_SERVICE_NAME;
+      $params["servicio1"]["puertoPublic"] = $_POST["puertoPublicApache"];
+      $params["servicio2"]["puertoPublic"] = $_POST["puertoPublicMysql"];
+      $params["servicio3"]["puertoPublic"] = $_POST["puertoPublicNginx"];
+      $params["servicio4"]["puertoPublic"] = $_POST["puertoPublicMongo"];
+      $params["servicio1"]["puertoPriv"] = $_POST["puertoPrivApache"];
+      $params["servicio2"]["puertoPriv"] = $_POST["puertoPrivMysql"];
+      $params["servicio3"]["puertoPriv"] = $_POST["puertoPrivNginx"];
+      $params["servicio4"]["puertoPriv"] = $_POST["puertoPrivMongo"];
+      $docker = componerDockerJSON($_SESSION["user"], $_POST["nombreServicio"], $_POST["descripcion"], 4, $params);
+    } else {
+      if(isset($_POST["apache2"]) && isset($_POST["mysql"]) && isset($_POST["nginx"])) {
+        $params["servicio1"]["name"] = APACHE2_SERVICE_NAME;
+        $params["servicio2"]["name"] = MYSQL_SERVICE_NAME;
+        $params["servicio3"]["name"] = NGINX_SERVICE_NAME;
+        $params["servicio1"]["puertoPublic"] = $_POST["puertoPublicApache"];
+        $params["servicio2"]["puertoPublic"] = $_POST["puertoPublicMysql"];
+        $params["servicio3"]["puertoPublic"] = $_POST["puertoPublicNginx"];
+        $params["servicio1"]["puertoPriv"] = $_POST["puertoPrivApache"];
+        $params["servicio2"]["puertoPriv"] = $_POST["puertoPrivMysql"];
+        $params["servicio3"]["puertoPriv"] = $_POST["puertoPrivNginx"];
+        $docker = componerDockerJSON($_SESSION["user"], $_POST["nombreServicio"], $_POST["descripcion"], 3, $params);
+      } 
+      elseif (isset($_POST["apache2"]) && isset($_POST["mysql"]) && isset($_POST["mongo"]))
       {
-        $array["container"]["services"] = array("apache2");
-        $array["container"]["volumes"] = array("apache2" => array("wordpress:/var/www/html/wordpress", ".htaccess:/var/www/html/.htaccess"));
-        $array["container"]["publicPorts"] = array("apache2" => $_POST["puertoPublicApache"]);
-        $array["container"]["privatePorts"] = array("apache2" => $_POST["puertoPrivApache"]);
+        $params["servicio1"]["name"] = APACHE2_SERVICE_NAME;
+        $params["servicio2"]["name"] = MYSQL_SERVICE_NAME;
+        $params["servicio3"]["name"] = MONGO_SERVICE_NAME;
+        $params["servicio1"]["puertoPublic"] = $_POST["puertoPublicApache"];
+        $params["servicio2"]["puertoPublic"] = $_POST["puertoPublicMysql"];
+        $params["servicio3"]["puertoPublic"] = $_POST["puertoPublicMongo"];
+        $params["servicio1"]["puertoPriv"] = $_POST["puertoPrivApache"];
+        $params["servicio2"]["puertoPriv"] = $_POST["puertoPrivMysql"];
+        $params["servicio3"]["puertoPriv"] = $_POST["puertoPrivMongo"];
+        $docker = componerDockerJSON($_SESSION["user"], $_POST["nombreServicio"], $_POST["descripcion"], 3, $params);
+      } 
+      elseif (isset($_POST["apache2"]) && isset($_POST["mongo"]) && isset($_POST["nginx"]))
+      {
+        $params["servicio1"]["name"] = APACHE2_SERVICE_NAME;
+        $params["servicio2"]["name"] = MONGO_SERVICE_NAME;
+        $params["servicio3"]["name"] = NGINX_SERVICE_NAME;
+        $params["servicio1"]["puertoPublic"] = $_POST["puertoPublicApache"];
+        $params["servicio2"]["puertoPublic"] = $_POST["puertoPublicMongo"];
+        $params["servicio3"]["puertoPublic"] = $_POST["puertoPublicNginx"];
+        $params["servicio1"]["puertoPriv"] = $_POST["puertoPrivApache"];
+        $params["servicio2"]["puertoPriv"] = $_POST["puertoPrivMongo"];
+        $params["servicio3"]["puertoPriv"] = $_POST["puertoPrivNginx"];
+        $docker = componerDockerJSON($_SESSION["user"], $_POST["nombreServicio"], $_POST["descripcion"], 3, $params);
       }
-      if(isset($_POST["mysql"]))
+      elseif (isset($_POST["nginx"]) && isset($_POST["mongo"]) && isset($_POST["mysql"]))
       {
-        $array["container"]["services"] = array("mysql");
-        $array["container"]["volumes"] = array("mysql" => array("dbdata:/var/lib/mysql", "script.sql:/dbScript/script.sql"));
-        $array["container"]["publicPorts"] = array("mysql" => $_POST["puertoPublicMysql"]);
-        $array["container"]["privatePorts"] = array("mysql" => $_POST["puertoPrivMysql"]);
+        $params["servicio1"]["name"] = NGINX_SERVICE_NAME;
+        $params["servicio2"]["name"] = MONGO_SERVICE_NAME;
+        $params["servicio3"]["name"] = MYSQL_SERVICE_NAME;
+        $params["servicio1"]["puertoPublic"] = $_POST["puertoPublicNginx"];
+        $params["servicio2"]["puertoPublic"] = $_POST["puertoPublicMongo"];
+        $params["servicio3"]["puertoPublic"] = $_POST["puertoPublicMysql"];
+        $params["servicio1"]["puertoPriv"] = $_POST["puertoPrivNginx"];
+        $params["servicio2"]["puertoPriv"] = $_POST["puertoPrivMongo"];
+        $params["servicio3"]["puertoPriv"] = $_POST["puertoPrivMysql"];
+        $docker = componerDockerJSON($_SESSION["user"], $_POST["nombreServicio"], $_POST["descripcion"], 3, $params);
+      } else {
+        if (isset($_POST["apache2"]) && isset($_POST["mysql"])) {
+          $params["servicio1"]["name"] = APACHE2_SERVICE_NAME;
+          $params["servicio2"]["name"] = MYSQL_SERVICE_NAME;
+          $params["servicio1"]["puertoPublic"] = $_POST["puertoPublicApache"];
+          $params["servicio2"]["puertoPublic"] = $_POST["puertoPublicMysql"];
+          $params["servicio1"]["puertoPriv"] = $_POST["puertoPrivApache"];
+          $params["servicio2"]["puertoPriv"] = $_POST["puertoPrivMysql"];
+          $docker = componerDockerJSON($_SESSION["user"], $_POST["nombreServicio"], $_POST["descripcion"], 2, $params);
+        } 
+        elseif (isset($_POST["apache2"]) && isset($_POST["nginx"])) 
+        {
+          $params["servicio1"]["name"] = APACHE2_SERVICE_NAME;
+          $params["servicio2"]["name"] = NGINX_SERVICE_NAME;
+          $params["servicio1"]["puertoPublic"] = $_POST["puertoPublicApache"];
+          $params["servicio2"]["puertoPublic"] = $_POST["puertoPublicNginx"];
+          $params["servicio1"]["puertoPriv"] = $_POST["puertoPrivApache"];
+          $params["servicio2"]["puertoPriv"] = $_POST["puertoPrivNginx"];
+          $docker = componerDockerJSON($_SESSION["user"], $_POST["nombreServicio"], $_POST["descripcion"], 2, $params);
+        }
+        elseif (isset($_POST["apache2"]) && isset($_POST["mongo"]))
+        {
+          $params["servicio1"]["name"] = APACHE2_SERVICE_NAME;
+          $params["servicio2"]["name"] = MONGO_SERVICE_NAME;
+          $params["servicio1"]["puertoPublic"] = $_POST["puertoPublicApache"];
+          $params["servicio2"]["puertoPublic"] = $_POST["puertoPublicMongo"];
+          $params["servicio1"]["puertoPriv"] = $_POST["puertoPrivApache"];
+          $params["servicio2"]["puertoPriv"] = $_POST["puertoPrivMongo"];
+          $docker = componerDockerJSON($_SESSION["user"], $_POST["nombreServicio"], $_POST["descripcion"], 2, $params);
+        } 
+        elseif (isset($_POST["mysql"]) && isset($_POST["nginx"])) 
+        {
+          $params["servicio1"]["name"] = MYSQL_SERVICE_NAME;
+          $params["servicio2"]["name"] = NGINX_SERVICE_NAME;
+          $params["servicio1"]["puertoPublic"] = $_POST["puertoPublicMysql"];
+          $params["servicio2"]["puertoPublic"] = $_POST["puertoPublicNginx"];
+          $params["servicio1"]["puertoPriv"] = $_POST["puertoPrivMysql"];
+          $params["servicio2"]["puertoPriv"] = $_POST["puertoPrivNginx"];
+          $docker = componerDockerJSON($_SESSION["user"], $_POST["nombreServicio"], $_POST["descripcion"], 2, $params);
+        } 
+        elseif (isset($_POST["mysql"]) && isset($_POST["mongo"])) 
+        {
+          $params["servicio1"]["name"] = MYSQL_SERVICE_NAME;
+          $params["servicio2"]["name"] = MONGO_SERVICE_NAME;
+          $params["servicio1"]["puertoPublic"] = $_POST["puertoPublicMysql"];
+          $params["servicio2"]["puertoPublic"] = $_POST["puertoPublicMongo"];
+          $params["servicio1"]["puertoPriv"] = $_POST["puertoPrivMysql"];
+          $params["servicio2"]["puertoPriv"] = $_POST["puertoPrivMongo"];
+          $docker = componerDockerJSON($_SESSION["user"], $_POST["nombreServicio"], $_POST["descripcion"], 2, $params);
+        } 
+        elseif (isset($_POST["mongo"]) && isset($_POST["nginx"])) 
+        {
+          $params["servicio1"]["name"] = MONGO_SERVICE_NAME;
+          $params["servicio2"]["name"] = NGINX_SERVICE_NAME;
+          $params["servicio1"]["puertoPublic"] = $_POST["puertoPublicMongo"];
+          $params["servicio2"]["puertoPublic"] = $_POST["puertoPublicNginx"];
+          $params["servicio1"]["puertoPriv"] = $_POST["puertoPrivMongo"];
+          $params["servicio2"]["puertoPriv"] = $_POST["puertoPrivNginx"];
+          $docker = componerDockerJSON($_SESSION["user"], $_POST["nombreServicio"], $_POST["descripcion"], 2, $params);
+        } else {
+          if(isset($_POST["apache2"])) {
+            $params["servicio1"]["name"] = APACHE2_SERVICE_NAME;
+            $params["servicio1"]["puertoPublic"] = $_POST["puertoPublicApache"];
+            $params["servicio1"]["puertoPriv"] = $_POST["puertoPrivApache"];
+            $docker = componerDockerJSON($_SESSION["user"], $_POST["nombreServicio"], $_POST["descripcion"], 1, $params);
+          }
+          if(isset($_POST["mysql"])) {
+            $params["servicio1"]["name"] = MYSQL_SERVICE_NAME;
+            $params["servicio1"]["puertoPublic"] = $_POST["puertoPublicMysql"];
+            $params["servicio1"]["puertoPriv"] = $_POST["puertoPrivMysql"];
+            $docker = componerDockerJSON($_SESSION["user"], $_POST["nombreServicio"], $_POST["descripcion"], 1, $params);
+          }
+          if(isset($_POST["nginx"])) {
+            $params["servicio1"]["name"] = NGINX_SERVICE_NAME;
+            $params["servicio1"]["puertoPublic"] = $_POST["puertoPublicNginx"];
+            $params["servicio1"]["puertoPriv"] = $_POST["puertoPrivNginx"];
+            $docker = componerDockerJSON($_SESSION["user"], $_POST["nombreServicio"], $_POST["descripcion"], 1, $params);
+          }
+          if(isset($_POST["mongo"])) {
+            $params["servicio1"]["name"] = MONGO_SERVICE_NAME;
+            $params["servicio1"]["puertoPublic"] = $_POST["puertoPublicMongo"];
+            $params["servicio1"]["puertoPriv"] = $_POST["puertoPrivMongo"];
+            $docker = componerDockerJSON($_SESSION["user"], $_POST["nombreServicio"], $_POST["descripcion"], 1, $params);
+          }
+        }
       }
     }
     exec("echo L3h3nd@k@r1 | sudo chmod 777 /home/" . $_SESSION["user"] . "/docker-" . $_SESSION["numCont"] . ".json");
-    file_put_contents("/home/" . $_SESSION["user"] . "/docker-" . $_SESSION["numCont"] . ".json", json_encode($array));
+    file_put_contents("/home/" . $_SESSION["user"] . "/docker-" . $_SESSION["numCont"] . ".json", json_encode($docker));
     exec("echo L3h3nd@k@r1 | sudo chown " . $_SESSION["user"] . ":" . $_SESSION["user"] . " /home/" . $_SESSION["user"] . "/docker-" . $_SESSION["numCont"] . ".json");
     exec("echo L3h3nd@k@r1 | sudo docker-managment-backend -i /home/" . $_SESSION['user'] . "/docker-" . $_SESSION["numCont"] . ".json -u");
     unset($_SESSION["numCont"]);
     header("Location: dashboard.php");  
   }
-  //exec("echo L3h3nd@k@r1 | sudo docker-managment-backend -p ". $_SESSION['user'] . "/" . $array["container"]["containerName"]);
-  
-
 }
 ?>
 <!DOCTYPE html>
@@ -96,24 +210,15 @@ if(isset($_POST["actualizar"]))
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
   <script src="js/script.js"></script>
 
-  <!-- Template Main CSS File -->
   <link href="assets/css/style.css" rel="stylesheet">
-
-
-  <!-- =======================================================
-  * Template Name: NiceAdmin - v2.2.2
-  * Template URL: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/
-  * Author: BootstrapMade.com
-  * License: https://bootstrapmade.com/license/
-  ======================================================== -->
+  
 </head>
 
 <body>
   <?php 
     include 'header.php';
     include 'menu.html';
-  ?>
-  
+  ?>  
   <main id="main" class="main">
 
     <div class="pagetitle">
@@ -124,7 +229,7 @@ if(isset($_POST["actualizar"]))
           <li class="breadcrumb-item active">Actualizar</li>
         </ol>
       </nav>
-    </div><!-- End Page Title -->
+    </div>
 
     <div class="card">
       <div class="card-body">
@@ -135,7 +240,7 @@ if(isset($_POST["actualizar"]))
           $container = json_decode(file_get_contents("/home/" . $_SESSION['user'] . "/docker-". $_GET["contenedor"] . ".json"), true);
         
       ?>
-          <!-- Vertical Pills Tabs -->
+          
           <div class="d-flex align-items-start" id="myFormu">
             <div class="nav flex-column nav-pills me-4" id="v-pills-tab" role="tablist" aria-orientation="vertical">
               <button class="nav-link active" id="v-pills-home-tab" d type="button" role="tab" aria-selected="true">Nombre</button>
@@ -184,47 +289,134 @@ if(isset($_POST["actualizar"]))
                         <tr class="checkbox" id="checkbox">
                           <th scope="row"></th>
                           <?php 
-                            $tam1 = count($container["container"]["services"]);
                             $apache2 = false;
                             $mysql = false;
-                            for($i=0;$i<$tam1;$i++)
+                            $mongo = false;
+                            $nginx = false;
+                            for($i=0;$i<count($container["container"]["services"]);$i++)
                             {
-                              if($container["container"]["services"][$i] == "apache2")
+                              if($container["container"]["services"][$i] == APACHE2_SERVICE_NAME)
                               {
                                 $apache2 = true;
                               }
-                              if($container["container"]["services"][$i] == "mysql")
+                              if($container["container"]["services"][$i] == MYSQL_SERVICE_NAME)
                               {
                                 $mysql = true;
                               }
+                              if($container["container"]["services"][$i] == MONGO_SERVICE_NAME)
+                              {
+                                $mongo = true;
+                              }
+                              if($container["container"]["services"][$i] == NGINX_SERVICE_NAME)
+                              {
+                                $nginx = true;
+                              }
                             }
-                            if($apache2 && $mysql)
+                            if($apache2 && $mysql && $mongo && $nginx)
                             {
-                              echo '<td><input type="checkbox" name="apache2" checked></td>';
-                              echo '<td><input type="checkbox" name="mysql" checked></td>';
+                              echo '<td><input type="checkbox" name='. APACHE2_SERVICE_NAME . ' checked></td>';
+                              echo '<td><input type="checkbox" name='. MYSQL_SERVICE_NAME . ' checked></td>';
+                              echo '<td><input type="checkbox" name='. MONGO_SERVICE_NAME . ' checked></td>';
+                              echo '<td><input type="checkbox" name='. NGINX_SERVICE_NAME . ' checked></td>';
                             }
                             else
                             {
-                              if($apache2)
+                              if($apache2 && $mysql && $nginx) {
+                                echo '<td><input type="checkbox" name='. APACHE2_SERVICE_NAME . ' checked></td>';
+                                echo '<td><input type="checkbox" name='. MYSQL_SERVICE_NAME . ' checked></td>';
+                                echo '<td><input type="checkbox" name='. MONGO_SERVICE_NAME . ' ></td>';
+                                echo '<td><input type="checkbox" name='. NGINX_SERVICE_NAME . ' checked></td>';
+                              } 
+                              elseif ($apache2 && $mysql && $mongo)
                               {
-                                echo '<td><input type="checkbox" name="apache2" checked></td>';
+                                echo '<td><input type="checkbox" name='. APACHE2_SERVICE_NAME . ' checked></td>';
+                                echo '<td><input type="checkbox" name='. MYSQL_SERVICE_NAME . ' checked></td>';
+                                echo '<td><input type="checkbox" name='. MONGO_SERVICE_NAME . ' checked></td>';
+                                echo '<td><input type="checkbox" name='. NGINX_SERVICE_NAME . ' ></td>';
+                              } 
+                              elseif ($apache2 && $mongo && $nginx)
+                              {
+                                echo '<td><input type="checkbox" name='. APACHE2_SERVICE_NAME . ' checked></td>';
+                                echo '<td><input type="checkbox" name='. MYSQL_SERVICE_NAME . ' ></td>';
+                                echo '<td><input type="checkbox" name='. MONGO_SERVICE_NAME . ' checked></td>';
+                                echo '<td><input type="checkbox" name='. NGINX_SERVICE_NAME . ' checked></td>';
                               }
-                              else
+                              elseif ($nginx && $mongo && $mysql)
                               {
-                                echo '<td><input type="checkbox" name="apache2"></td>';
-                              }
-                              if($mysql)
-                              {
-                                echo '<td><input type="checkbox" name="mysql" checked></td>';
-                              }
-                              else
-                              {
-                                echo '<td><input type="checkbox" name="mysql"></td>';
+                                echo '<td><input type="checkbox" name='. APACHE2_SERVICE_NAME . ' ></td>';
+                                echo '<td><input type="checkbox" name='. MYSQL_SERVICE_NAME . ' checked></td>';
+                                echo '<td><input type="checkbox" name='. MONGO_SERVICE_NAME . ' checked></td>';
+                                echo '<td><input type="checkbox" name='. NGINX_SERVICE_NAME . ' checked></td>';
+                              } else {
+                                if ($apache2 && $mysql) {
+                                  echo '<td><input type="checkbox" name='. APACHE2_SERVICE_NAME . ' checked></td>';
+                                  echo '<td><input type="checkbox" name='. MYSQL_SERVICE_NAME . ' checked></td>';
+                                  echo '<td><input type="checkbox" name='. MONGO_SERVICE_NAME . ' ></td>';
+                                  echo '<td><input type="checkbox" name='. NGINX_SERVICE_NAME . ' ></td>'; 
+                                } 
+                                elseif ($apache2 && $nginx) 
+                                {
+                                  echo '<td><input type="checkbox" name='. APACHE2_SERVICE_NAME . ' checked></td>';
+                                  echo '<td><input type="checkbox" name='. MYSQL_SERVICE_NAME . ' ></td>';
+                                  echo '<td><input type="checkbox" name='. MONGO_SERVICE_NAME . ' ></td>';
+                                  echo '<td><input type="checkbox" name='. NGINX_SERVICE_NAME . ' checked></td>';
+                                }
+                                elseif ($apache2 && $mongo)
+                                {
+                                  echo '<td><input type="checkbox" name='. APACHE2_SERVICE_NAME . ' checked></td>';
+                                  echo '<td><input type="checkbox" name='. MYSQL_SERVICE_NAME . ' ></td>';
+                                  echo '<td><input type="checkbox" name='. MONGO_SERVICE_NAME . ' checked></td>';
+                                  echo '<td><input type="checkbox" name='. NGINX_SERVICE_NAME . ' ></td>';
+                                } 
+                                elseif ($mysql && $nginx) 
+                                {
+                                  echo '<td><input type="checkbox" name='. APACHE2_SERVICE_NAME . ' ></td>';
+                                  echo '<td><input type="checkbox" name='. MYSQL_SERVICE_NAME . ' checked></td>';
+                                  echo '<td><input type="checkbox" name='. MONGO_SERVICE_NAME . ' ></td>';
+                                  echo '<td><input type="checkbox" name='. NGINX_SERVICE_NAME . ' checked></td>';
+                                } 
+                                elseif ($mysql && $mongo) 
+                                {
+                                  echo '<td><input type="checkbox" name='. APACHE2_SERVICE_NAME . ' ></td>';
+                                  echo '<td><input type="checkbox" name='. MYSQL_SERVICE_NAME . ' checked></td>';
+                                  echo '<td><input type="checkbox" name='. MONGO_SERVICE_NAME . ' checked></td>';
+                                  echo '<td><input type="checkbox" name='. NGINX_SERVICE_NAME . ' ></td>';
+                                } 
+                                elseif ($mongo && $nginx) 
+                                {
+                                  echo '<td><input type="checkbox" name='. APACHE2_SERVICE_NAME . ' ></td>';
+                                  echo '<td><input type="checkbox" name='. MYSQL_SERVICE_NAME . ' ></td>';
+                                  echo '<td><input type="checkbox" name='. MONGO_SERVICE_NAME . ' checked></td>';
+                                  echo '<td><input type="checkbox" name='. NGINX_SERVICE_NAME . ' checked></td>';
+                                } else {
+                                  if($apache2) {
+                                    echo '<td><input type="checkbox" name='. APACHE2_SERVICE_NAME . ' checked></td>';
+                                    echo '<td><input type="checkbox" name='. MYSQL_SERVICE_NAME . ' ></td>';
+                                    echo '<td><input type="checkbox" name='. MONGO_SERVICE_NAME . ' ></td>';
+                                    echo '<td><input type="checkbox" name='. NGINX_SERVICE_NAME . ' ></td>';
+                                  }
+                                  if($mysql) {
+                                    echo '<td><input type="checkbox" name='. APACHE2_SERVICE_NAME . ' ></td>';
+                                    echo '<td><input type="checkbox" name='. MYSQL_SERVICE_NAME . ' checked></td>';
+                                    echo '<td><input type="checkbox" name='. MONGO_SERVICE_NAME . ' ></td>';
+                                    echo '<td><input type="checkbox" name='. NGINX_SERVICE_NAME . ' ></td>';
+                                  }
+                                  if($nginx) {
+                                    echo '<td><input type="checkbox" name='. APACHE2_SERVICE_NAME . ' ></td>';
+                                    echo '<td><input type="checkbox" name='. MYSQL_SERVICE_NAME . ' ></td>';
+                                    echo '<td><input type="checkbox" name='. MONGO_SERVICE_NAME . ' ></td>';
+                                    echo '<td><input type="checkbox" name='. NGINX_SERVICE_NAME . ' checked></td>';
+                                  }
+                                  if($mongo) {
+                                    echo '<td><input type="checkbox" name='. APACHE2_SERVICE_NAME . '></td>';
+                                    echo '<td><input type="checkbox" name='. MYSQL_SERVICE_NAME . ' ></td>';
+                                    echo '<td><input type="checkbox" name='. MONGO_SERVICE_NAME . ' checked></td>';
+                                    echo '<td><input type="checkbox" name='. NGINX_SERVICE_NAME . ' ></td>';
+                                  }
+                                }
                               }
                             }
                           ?>
-                          <td><input type="checkbox" name="mongo"></td>
-                          <td><input type="checkbox" name="nginx"></td>
                         </tr>
                       </tbody>
                     </table>
@@ -238,7 +430,6 @@ if(isset($_POST["actualizar"]))
 
                   </div>
                   <div class="tab-pane fade" id="v-pills-messages" role="tabpanel" aria-labelledby="v-pills-messages-tab">
-                    <!-- Esto se deberia de generar dependiendo de que checkbox se haya clickado -->
                     <table class="table" id="tabla">
                       <thead>
                         <tr>
@@ -259,7 +450,6 @@ if(isset($_POST["actualizar"]))
                   </div>
 
                   <div class="tab-pane fade" id="v-pills-port" role="tabpanel" aria-labelledby="v-pills-port-tab">
-                    <!--Este apartado se deberia de generar dependiendo de los servicios añadidos en el checkbox de servicios-->
                     <table class="table" id="tablaPuertos">
                       <thead>
                         <tr>
@@ -283,7 +473,6 @@ if(isset($_POST["actualizar"]))
               </div>
             </form>
           </div>
-        <!-- End Vertical Pills Tabs -->
       <?php 
         } 
       ?>
