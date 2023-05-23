@@ -69,7 +69,7 @@ function actualizarUsuario($conn,$nombre,$apellido1,$apellido2,$email,$username,
     $sentence->bind_param('sssssss', $nombre,$apellido1,$apellido2,$email,$username,$password,$oldUsu);
     $sentence->execute();
 }
-function componerDockerJSON($usuario, $nombreContenedor, $descripcion, $cantidadServicios, $params){
+function componerDockerJSON($usuario, $nombreContenedor, $descripcion, $cantidadServicios,$cantidadVolumenes, $params){
   $docker = array("execUser" => null,
                   "container" => 
                        array("containerName" => null, 
@@ -92,7 +92,11 @@ function componerDockerJSON($usuario, $nombreContenedor, $descripcion, $cantidad
   
   for($i = 1; $i <= $cantidadServicios; $i++){
     $servicios[$i-1] = $params["servicio".$i.""]["name"];  
-    $volumes[$params["servicio".$i.""]["name"]] = array("dbdata:/var/lib/mysql", "script.sql:/dbScript/script.sql");
+    $volumenes = array();
+    for($y = 0; $y < $cantidadVolumenes; $y++){
+      $volumenes[$y] = $params["servicio".$i.""]["volumenes".$y];
+    }
+    $volumes[$params["servicio".$i.""]["name"]] = $volumenes;
     $publicPorts[$params["servicio".$i.""]["name"]] = $params["servicio".$i.""]["puertoPublic"];
     $privatePorts[$params["servicio".$i.""]["name"]] = $params["servicio".$i.""]["puertoPriv"];
   }
