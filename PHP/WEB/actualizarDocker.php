@@ -210,24 +210,15 @@ if(isset($_POST["actualizar"]))
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
   <script src="js/script.js"></script>
 
-  <!-- Template Main CSS File -->
   <link href="assets/css/style.css" rel="stylesheet">
-
-
-  <!-- =======================================================
-  * Template Name: NiceAdmin - v2.2.2
-  * Template URL: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/
-  * Author: BootstrapMade.com
-  * License: https://bootstrapmade.com/license/
-  ======================================================== -->
+  
 </head>
 
 <body>
   <?php 
     include 'header.php';
     include 'menu.html';
-  ?>
-  
+  ?>  
   <main id="main" class="main">
 
     <div class="pagetitle">
@@ -238,7 +229,7 @@ if(isset($_POST["actualizar"]))
           <li class="breadcrumb-item active">Actualizar</li>
         </ol>
       </nav>
-    </div><!-- End Page Title -->
+    </div>
 
     <div class="card">
       <div class="card-body">
@@ -249,7 +240,7 @@ if(isset($_POST["actualizar"]))
           $container = json_decode(file_get_contents("/home/" . $_SESSION['user'] . "/docker-". $_GET["contenedor"] . ".json"), true);
         
       ?>
-          <!-- Vertical Pills Tabs -->
+          
           <div class="d-flex align-items-start" id="myFormu">
             <div class="nav flex-column nav-pills me-4" id="v-pills-tab" role="tablist" aria-orientation="vertical">
               <button class="nav-link active" id="v-pills-home-tab" d type="button" role="tab" aria-selected="true">Nombre</button>
@@ -439,7 +430,6 @@ if(isset($_POST["actualizar"]))
 
                   </div>
                   <div class="tab-pane fade" id="v-pills-messages" role="tabpanel" aria-labelledby="v-pills-messages-tab">
-                    <!-- Esto se deberia de generar dependiendo de que checkbox se haya clickado -->
                     <table class="table" id="tabla">
                       <thead>
                         <tr>
@@ -460,7 +450,6 @@ if(isset($_POST["actualizar"]))
                   </div>
 
                   <div class="tab-pane fade" id="v-pills-port" role="tabpanel" aria-labelledby="v-pills-port-tab">
-                    <!--Este apartado se deberia de generar dependiendo de los servicios añadidos en el checkbox de servicios-->
                     <table class="table" id="tablaPuertos">
                       <thead>
                         <tr>
@@ -484,7 +473,6 @@ if(isset($_POST["actualizar"]))
               </div>
             </form>
           </div>
-        <!-- End Vertical Pills Tabs -->
       <?php 
         } 
       ?>
