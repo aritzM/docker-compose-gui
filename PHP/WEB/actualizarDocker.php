@@ -184,47 +184,134 @@ if(isset($_POST["actualizar"]))
                         <tr class="checkbox" id="checkbox">
                           <th scope="row"></th>
                           <?php 
-                            $tam1 = count($container["container"]["services"]);
                             $apache2 = false;
                             $mysql = false;
-                            for($i=0;$i<$tam1;$i++)
+                            $mongo = false;
+                            $nginx = false;
+                            for($i=0;$i<count($container["container"]["services"]);$i++)
                             {
-                              if($container["container"]["services"][$i] == "apache2")
+                              if($container["container"]["services"][$i] == APACHE2_SERVICE_NAME)
                               {
                                 $apache2 = true;
                               }
-                              if($container["container"]["services"][$i] == "mysql")
+                              if($container["container"]["services"][$i] == MYSQL_SERVICE_NAME)
                               {
                                 $mysql = true;
                               }
+                              if($container["container"]["services"][$i] == MONGO_SERVICE_NAME)
+                              {
+                                $mongo = true;
+                              }
+                              if($container["container"]["services"][$i] == NGINX_SERVICE_NAME)
+                              {
+                                $nginx = true;
+                              }
                             }
-                            if($apache2 && $mysql)
+                            if($apache2 && $mysql && $mongo && $nginx)
                             {
-                              echo '<td><input type="checkbox" name="apache2" checked></td>';
-                              echo '<td><input type="checkbox" name="mysql" checked></td>';
+                              echo '<td><input type="checkbox" name='. APACHE2_SERVICE_NAME . ' checked></td>';
+                              echo '<td><input type="checkbox" name='. MYSQL_SERVICE_NAME . ' checked></td>';
+                              echo '<td><input type="checkbox" name='. MONGO_SERVICE_NAME . ' checked></td>';
+                              echo '<td><input type="checkbox" name='. NGINX_SERVICE_NAME . ' checked></td>';
                             }
                             else
                             {
-                              if($apache2)
+                              if($apache2 && $mysql && $nginx) {
+                                echo '<td><input type="checkbox" name='. APACHE2_SERVICE_NAME . ' checked></td>';
+                                echo '<td><input type="checkbox" name='. MYSQL_SERVICE_NAME . ' checked></td>';
+                                echo '<td><input type="checkbox" name='. MONGO_SERVICE_NAME . ' ></td>';
+                                echo '<td><input type="checkbox" name='. NGINX_SERVICE_NAME . ' checked></td>';
+                              } 
+                              elseif ($apache2 && $mysql && $mongo)
                               {
-                                echo '<td><input type="checkbox" name="apache2" checked></td>';
+                                echo '<td><input type="checkbox" name='. APACHE2_SERVICE_NAME . ' checked></td>';
+                                echo '<td><input type="checkbox" name='. MYSQL_SERVICE_NAME . ' checked></td>';
+                                echo '<td><input type="checkbox" name='. MONGO_SERVICE_NAME . ' checked></td>';
+                                echo '<td><input type="checkbox" name='. NGINX_SERVICE_NAME . ' ></td>';
+                              } 
+                              elseif ($apache2 && $mongo && $nginx)
+                              {
+                                echo '<td><input type="checkbox" name='. APACHE2_SERVICE_NAME . ' checked></td>';
+                                echo '<td><input type="checkbox" name='. MYSQL_SERVICE_NAME . ' ></td>';
+                                echo '<td><input type="checkbox" name='. MONGO_SERVICE_NAME . ' checked></td>';
+                                echo '<td><input type="checkbox" name='. NGINX_SERVICE_NAME . ' checked></td>';
                               }
-                              else
+                              elseif ($nginx && $mongo && $mysql)
                               {
-                                echo '<td><input type="checkbox" name="apache2"></td>';
-                              }
-                              if($mysql)
-                              {
-                                echo '<td><input type="checkbox" name="mysql" checked></td>';
-                              }
-                              else
-                              {
-                                echo '<td><input type="checkbox" name="mysql"></td>';
+                                echo '<td><input type="checkbox" name='. APACHE2_SERVICE_NAME . ' ></td>';
+                                echo '<td><input type="checkbox" name='. MYSQL_SERVICE_NAME . ' checked></td>';
+                                echo '<td><input type="checkbox" name='. MONGO_SERVICE_NAME . ' checked></td>';
+                                echo '<td><input type="checkbox" name='. NGINX_SERVICE_NAME . ' checked></td>';
+                              } else {
+                                if ($apache2 && $mysql) {
+                                  echo '<td><input type="checkbox" name='. APACHE2_SERVICE_NAME . ' checked></td>';
+                                  echo '<td><input type="checkbox" name='. MYSQL_SERVICE_NAME . ' checked></td>';
+                                  echo '<td><input type="checkbox" name='. MONGO_SERVICE_NAME . ' ></td>';
+                                  echo '<td><input type="checkbox" name='. NGINX_SERVICE_NAME . ' ></td>'; 
+                                } 
+                                elseif ($apache2 && $nginx) 
+                                {
+                                  echo '<td><input type="checkbox" name='. APACHE2_SERVICE_NAME . ' checked></td>';
+                                  echo '<td><input type="checkbox" name='. MYSQL_SERVICE_NAME . ' ></td>';
+                                  echo '<td><input type="checkbox" name='. MONGO_SERVICE_NAME . ' ></td>';
+                                  echo '<td><input type="checkbox" name='. NGINX_SERVICE_NAME . ' checked></td>';
+                                }
+                                elseif ($apache2 && $mongo)
+                                {
+                                  echo '<td><input type="checkbox" name='. APACHE2_SERVICE_NAME . ' checked></td>';
+                                  echo '<td><input type="checkbox" name='. MYSQL_SERVICE_NAME . ' ></td>';
+                                  echo '<td><input type="checkbox" name='. MONGO_SERVICE_NAME . ' checked></td>';
+                                  echo '<td><input type="checkbox" name='. NGINX_SERVICE_NAME . ' ></td>';
+                                } 
+                                elseif ($mysql && $nginx) 
+                                {
+                                  echo '<td><input type="checkbox" name='. APACHE2_SERVICE_NAME . ' ></td>';
+                                  echo '<td><input type="checkbox" name='. MYSQL_SERVICE_NAME . ' checked></td>';
+                                  echo '<td><input type="checkbox" name='. MONGO_SERVICE_NAME . ' ></td>';
+                                  echo '<td><input type="checkbox" name='. NGINX_SERVICE_NAME . ' checked></td>';
+                                } 
+                                elseif ($mysql && $mongo) 
+                                {
+                                  echo '<td><input type="checkbox" name='. APACHE2_SERVICE_NAME . ' ></td>';
+                                  echo '<td><input type="checkbox" name='. MYSQL_SERVICE_NAME . ' checked></td>';
+                                  echo '<td><input type="checkbox" name='. MONGO_SERVICE_NAME . ' checked></td>';
+                                  echo '<td><input type="checkbox" name='. NGINX_SERVICE_NAME . ' ></td>';
+                                } 
+                                elseif ($mongo && $nginx) 
+                                {
+                                  echo '<td><input type="checkbox" name='. APACHE2_SERVICE_NAME . ' ></td>';
+                                  echo '<td><input type="checkbox" name='. MYSQL_SERVICE_NAME . ' ></td>';
+                                  echo '<td><input type="checkbox" name='. MONGO_SERVICE_NAME . ' checked></td>';
+                                  echo '<td><input type="checkbox" name='. NGINX_SERVICE_NAME . ' checked></td>';
+                                } else {
+                                  if($apache2) {
+                                    echo '<td><input type="checkbox" name='. APACHE2_SERVICE_NAME . ' checked></td>';
+                                    echo '<td><input type="checkbox" name='. MYSQL_SERVICE_NAME . ' ></td>';
+                                    echo '<td><input type="checkbox" name='. MONGO_SERVICE_NAME . ' ></td>';
+                                    echo '<td><input type="checkbox" name='. NGINX_SERVICE_NAME . ' ></td>';
+                                  }
+                                  if($mysql) {
+                                    echo '<td><input type="checkbox" name='. APACHE2_SERVICE_NAME . ' ></td>';
+                                    echo '<td><input type="checkbox" name='. MYSQL_SERVICE_NAME . ' checked></td>';
+                                    echo '<td><input type="checkbox" name='. MONGO_SERVICE_NAME . ' ></td>';
+                                    echo '<td><input type="checkbox" name='. NGINX_SERVICE_NAME . ' ></td>';
+                                  }
+                                  if($nginx) {
+                                    echo '<td><input type="checkbox" name='. APACHE2_SERVICE_NAME . ' ></td>';
+                                    echo '<td><input type="checkbox" name='. MYSQL_SERVICE_NAME . ' ></td>';
+                                    echo '<td><input type="checkbox" name='. MONGO_SERVICE_NAME . ' ></td>';
+                                    echo '<td><input type="checkbox" name='. NGINX_SERVICE_NAME . ' checked></td>';
+                                  }
+                                  if($mongo) {
+                                    echo '<td><input type="checkbox" name='. APACHE2_SERVICE_NAME . '></td>';
+                                    echo '<td><input type="checkbox" name='. MYSQL_SERVICE_NAME . ' ></td>';
+                                    echo '<td><input type="checkbox" name='. MONGO_SERVICE_NAME . ' checked></td>';
+                                    echo '<td><input type="checkbox" name='. NGINX_SERVICE_NAME . ' ></td>';
+                                  }
+                                }
                               }
                             }
                           ?>
-                          <td><input type="checkbox" name="mongo"></td>
-                          <td><input type="checkbox" name="nginx"></td>
                         </tr>
                       </tbody>
                     </table>
