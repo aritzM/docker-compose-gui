@@ -161,17 +161,17 @@ function cargarPuertos($data){
   for($i=0; $i<count($data["container"]["services"]); $i++){
     echo "<tr>";
     $nombre = "";
-    if($data["container"]["services"][$i]=="apache2"){
-      $nombre = "Apache";
+    if($data["container"]["services"][$i] == APACHE2_SERVICE_NAME){
+      $nombre = APACHE2_STRING_NAME;
     }
-    if($data["container"]["services"][$i]=="mysql"){
-      $nombre = "Mysql";
+    if($data["container"]["services"][$i] == MYSQL_SERVICE_NAME){
+      $nombre = MYSQL_STRING_NAME;
     }
-    if($data["container"]["services"][$i]=="mongo"){
-      $nombre = "Mongo";
+    if($data["container"]["services"][$i] == MONGO_SERVICE_NAME){
+      $nombre = MONGO_STRING_NAME;
     }
-    if($data["container"]["services"][$i]=="nginx"){
-      $nombre = "Nginx";
+    if($data["container"]["services"][$i] == NGINX_SERVICE_NAME){
+      $nombre = NGINX_STRING_NAME;
     }
     echo "<th scope=\"row\">". $nombre ."</th>";
     echo "<td><input type=\"text\" name=\"puertoPriv". $nombre ."\" class=\"form-control\" value=\"". $data["container"]["privatePorts"][$data["container"]["services"][$i]] ."\" readonly></td>";
