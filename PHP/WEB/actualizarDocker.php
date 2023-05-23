@@ -181,7 +181,7 @@ if(isset($_POST["actualizar"]))
                         </tr>
                       </thead>
                       <tbody>
-                        <tr class="checkbox">
+                        <tr class="checkbox" id="checkbox">
                           <th scope="row"></th>
                           <?php 
                             $tam1 = count($container["container"]["services"]);
@@ -242,41 +242,17 @@ if(isset($_POST["actualizar"]))
                     <table class="table" id="tabla">
                       <thead>
                         <tr>
-                          <th scope="col">Volumen</th>
-                          <th scope="col">Apache</th>
-                          <th scope="col">Mysql</th>
+                          <th scope="col">Nº Volumen</th>
                         </tr>
                       </thead>
                       <tbody>
-                        <tr>
-                          <th scope="row">1</th>
-                          <td><input type="text" name="volumenApache1" class="form-control" placeholder="volumen1:volumenDocker"></td>
-                          <td><input type="text" name="volumenMysql1" class="form-control" placeholder="volumen1:volumenDocker"></td>
-                          
-                        
-                        </tr>
-                        <tr>
-                          <th scope="row">2</th>
-                          <td><input type="text" name="volumenApache2" class="form-control" placeholder="volumen2:volumenDocker"></td>
-                          <td><input type="text" name="volumenMysql2" class="form-control" placeholder="volumen2:volumenDocker"></td>
-                          
-                        
-                        </tr>
-                        <tr>
-                          <th scope="row">3</th>
-                          <td><input type="text" name="volumenApache3" class="form-control" placeholder="volumen3:volumenDocker"></td>
-                          <td><input type="text" name="volumenMysql3" class="form-control" placeholder="volumen3:volumenDocker"></td>
-                        
-              
-                        </tr>
-                        
-                        
                       </tbody>
                     </table>
 
                     <div class="row mb-3">
                       <div class="col-sm-10">
                         <button type="button" class="btn btn-primary" id="volver-2">Back</button>
+                        <button type="button" class="btn btn-primary" id="anadirVolumen" >Añadir Volumenes</button>
                         <button type="button" class="btn btn-next" id="3">Next</button>
                       </div>
                     </div>

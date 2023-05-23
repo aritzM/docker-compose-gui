@@ -133,6 +133,7 @@ if(!isset($_GET["cargar"])){
     $container = json_decode(file_get_contents("/home/" . $_GET['usuario'] . "/docker-". $_GET["numeroContenedor"] . ".json"), true);
     if(isset($_GET["volumenes"])){
       //cargar volumenes
+      cargarFilasVolumenes($container);
     }
     if(isset($_GET["puertos"])){
       //cargar puertos
