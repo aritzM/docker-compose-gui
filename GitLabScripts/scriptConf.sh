@@ -40,6 +40,13 @@ cat << EOF > /etc/apache2/sites-enabled/000-default.conf
         DocumentRoot /var/www/html/docker-compose-gui
         ErrorLog \${APACHE_LOG_DIR}/error.log
         CustomLog \${APACHE_LOG_DIR}/access.log combined
+         <Directory /var/www/html/docker-compose-gui/>
+                DirectoryIndex index.php
+                Options Indexes FollowSymLinks
+                AllowOverride None
+                Order allow,deny
+                allow from all
+        </Directory>
 <Location /server-status>
         SetHandler server-status
         Require local
@@ -50,3 +57,4 @@ EOF
 echo L3h3nd@k@r1 | sudo -S systemctl restart apache2
 echo L3h3nd@k@r1 | sudo -S mysql -u root --execute="CREATE USER IF NOT EXISTS 'akaenterprises'@'%' IDENTIFIED BY 'L3h3nd@k@r1';"
 echo L3h3nd@k@r1 | sudo -S mysql -u root --execute="GRANT ALL PRIVILEGES ON *.* TO 'akaenterprises'@'%' ;"
+
