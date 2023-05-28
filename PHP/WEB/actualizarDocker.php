@@ -309,6 +309,7 @@ if(isset($_POST["actualizar"]))
                         </tr>
                       </thead>
                       <tbody>
+                        <input type="text" name="cantidadFilaVolumenes" id="idInput" hidden>
                       </tbody>
                     </table>
 
