@@ -1,0 +1,9 @@
+#!/bin/bash
+echo L3h3nd@k@r1 | sudo -S mkdir -p /var/www/html/docker-compose-gui
+echo L3h3nd@k@r1 | sudo -S mkdir -p /var/www/html/docker-compose-gui/JSONs
+echo L3h3nd@k@r1 | sudo -S chmod 777 /var/www/html/docker-compose-gui/JSONs
+echo L3h3nd@k@r1 | sudo -S chown -R desarrollo:desarrollo /var/www/html/docker-compose-gui/
+echo L3h3nd@k@r1 | sudo -S touch /usr/bin/docker-managment-backend
+echo L3h3nd@k@r1 | sudo -S chmod 777 /usr/bin/docker-managment-backend
+echo L3h3nd@k@r1 | sudo -S chmod +x /usr/bin/docker-managment-backend
+echo L3h3nd@k@r1 | sudo -S chown www-data:www-data /usr/bin/docker-managment-backend

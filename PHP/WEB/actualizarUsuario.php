@@ -6,7 +6,7 @@ if(!isset($_SESSION['user']))
 }
 if(isset($_POST["actualizar"]))
 {
-    require 'funciones.php';
+    require 'comunes/funciones.php';
     $conn = conn();
     //Falta recojer el rol para la actualizacion, implementacion mas adelante
     actualizarUsuario($conn,$_POST["nombre"],$_POST["apellido1"],$_POST["apellido2"],$_POST["email"],$_POST["username"],$_POST["password"],$_SESSION["usuarioActualizar"]);
@@ -84,7 +84,7 @@ if(isset($_POST["actualizar"]))
                     
                     if(isset($_GET["usuario"]))
                     {
-                        require 'funciones.php';
+                        require 'comunes/funciones.php';
                         $_SESSION['usuarioActualizar'] = $_GET["usuario"];
                         $conn = conn();
                         $sql = "SELECT * FROM users WHERE username = ?";

@@ -7,7 +7,7 @@ if(!isset($_SESSION['user']))
 
 if(isset($_POST['crear']))
 {
-  require "funciones.php";
+  require 'comunes/funciones.php';
   $conn = conn();
   //Comprobar que el usuario no existe si no notificar
   insertUsu($conn,$_POST['nombre'],$_POST['apellido1'],$_POST['apellido2'],$_POST['email'],$_POST['username'],$_POST['password']);
